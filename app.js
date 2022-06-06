@@ -1,7 +1,7 @@
 const express = require('express');
 
 //MODELS
-const {User} = require('./models');
+const {User} = require('./db/models');
 
 //ROUTERS
 const usersRouter = require('./routes/users');
@@ -67,7 +67,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('errorAll');
 });
 
 
