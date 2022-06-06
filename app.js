@@ -37,7 +37,7 @@ app.use('/mangas', mangaRouter);
 
 // create Session table if it doesn't already exist
 // store.sync();
-
+console.log("hello")
 
 
 
