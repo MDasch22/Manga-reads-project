@@ -1,11 +1,17 @@
 const express = require('express');
 
-//MODELS
-const {User} = require('./db/models');
+//PACKAGES
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const session = require('express-session');
+
+
 
 //ROUTERS
 const usersRouter = require('./routes/users');
 const mangaRouter = require('./routes/mangas');
+
 
 //CREATING APP OBJECT
 const app = express();
@@ -13,12 +19,16 @@ const app = express();
 //CSS AND FRONT-END JS GOES IN THIS FILE IN SUB-DIRECTORIES.
 app.use(express.static('./public'));
 
-//PACKAGES
+//SETTINGS
+app.set("view engine", "pug");
 app.use(express.urlencoded({ extended: false }));
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const session = require('express-session');
+
+
+//ROUTERS
+const usersRouter = require('./routes/users');
+const mangaRouter = require('./routes/mangas');
+
+
 // const SequelizeStore = require('connect-session-sequelize')
 
 //ROUTER USE
@@ -37,7 +47,7 @@ app.use('/mangas', mangaRouter);
 
 // create Session table if it doesn't already exist
 // store.sync();
-console.log("hello")
+
 
 
 
@@ -78,7 +88,4 @@ app.all('*', (req, res) => {
   })
 })
 
-
-app.set('view engine', 'pug');
-const port = 8080;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+module.exports = app;
