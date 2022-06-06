@@ -1,0 +1,8 @@
+html
+  head
+    title Mangareads
+  body
+    h1= reviews[0].manga.title
+    each review in reviews
+      p= review.user.firstName
+      p= review.rating

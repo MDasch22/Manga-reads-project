@@ -1,0 +1,15 @@
+html
+  head
+    title Mangareads
+    link(rel="stylesheet", href="/css/general.css")
+  body
+    table
+      thead
+        tr
+          th Name
+          th Profile
+      tbody
+        each user in users
+          tr
+            td= `${user.firstName} ${user.lastName}`
+            td: a(href= `/users/${user.id}`) #{user.firstName}'s Profile

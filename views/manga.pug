@@ -1,0 +1,14 @@
+html
+  head
+  body
+    h2= `${manga.title}`
+    div
+    h3= `${manga.author}`
+    div
+    p= `${manga.description}`
+    div
+    p= `${manga.genre}`
+    div
+    p= `${manga.releaseDate}`
+    div
+    a(href= `/mangas/${manga.id}/reviews`) Reviews
