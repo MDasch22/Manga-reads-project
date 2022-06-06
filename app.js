@@ -1,9 +1,17 @@
 const express = require('express');
+
 //PACKAGES
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
+
+
+
+//ROUTERS
+const usersRouter = require('./routes/users');
+const mangaRouter = require('./routes/mangas');
+
 
 //CREATING APP OBJECT
 const app = express();
