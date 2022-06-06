@@ -24,10 +24,6 @@ app.set("view engine", "pug");
 app.use(express.urlencoded({ extended: false }));
 
 
-//ROUTERS
-const usersRouter = require('./routes/users');
-const mangaRouter = require('./routes/mangas');
-
 
 // const SequelizeStore = require('connect-session-sequelize')
 
