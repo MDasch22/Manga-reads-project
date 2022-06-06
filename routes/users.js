@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const {User, Bookshelf, Manga} = require('../models');
+const {User, Bookshelf, Manga} = require('../db/models');
 
 router.get("/", async (req, res) => {
   const users = await User.findAll();
