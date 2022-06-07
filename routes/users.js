@@ -1,21 +1,33 @@
 const express = require('express');
+const { check, validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
-const router = express.Router();
 
 const { User, Bookshelf, Manga } = require('../db/models');
-
-// userAuth
 const csrf = require('csurf');
-const { loginUser, logoutUser } = require('../auth');
 const csrfProtection = csrf({ cookie: true });
+const { loginUser, logoutUser } = require('../auth');
+
+const router = express.Router();
+// userAuth
 const asyncHandler = (handler) => (req, res, next) => handler(req, res, next).catch(next);
 // userAuth
 
-const { check, validationResult } = require("express-validator");
 
 // requireAuth
 const { requireAuth } = require('../auth');
 // requireAuth
+
+// userAuth REVIEW
+router.get("/register", csrfProtection, (req, res) => { // REVIEW
+  const user = User.build();
+  res.render('user-register', { // REVIEW
+    title: 'Register',
+    user,
+    csrfToken: req.csrfToken(),
+  });
+});
+// userAuth REVIEW
+
 
 // userAuth
 const userValidators = [
@@ -29,6 +41,21 @@ const userValidators = [
     .withMessage('Please provide a value for Last Name')
     .isLength({ max: 50 })
     .withMessage('Last Name must not be more than 50 characters long'),
+  check('email')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Email Address')
+    .isLength({ max: 255 })
+    .withMessage('Email Address must not be more than 255 characters long')
+    .isEmail()
+    .withMessage('Email Address is not a valid email')
+    .custom((value) => {
+      return User.findOne({ where: { email: value } })
+        .then((user) => {
+          if (user) {
+            return Promise.reject('The provided Email Address is already in use by another account');
+          }
+        });
+    }),
   check('password')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a value for Password')
@@ -47,62 +74,37 @@ const userValidators = [
       }
       return true;
     }),
-  check('emailAddress')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a value for Email Address')
-    .isLength({ max: 255 })
-    .withMessage('Email Address must not be more than 255 characters long')
-    .isEmail()
-    .withMessage('Email Address is not a valid email')
-    .custom((value) => {
-      return db.User.findOne({ where: { emailAddress: value } })
-        .then((user) => {
-          if (user) {
-            return Promise.reject('The provided Email Address is already in use by another account');
-          }
-        });
-    }),
 
 ];
-// userAuth
-const loginValidators = [
-  check('emailAddress')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a value for Email Address'),
-  check('password')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a value for Password'),
-];
-// userAuth
-
-// userAuth
 
 // userAuth REVIEW
 router.post('/register', csrfProtection, userValidators,
   asyncHandler(async (req, res) => {
     const {
-      emailAddress,
+      email,
       firstName,
       lastName,
       password,
     } = req.body;
 
-    const user = db.User.build({
-      emailAddress,
+    const user = User.build({
+      email,
       firstName,
       lastName,
+      password
     });
 
     const validatorErrors = validationResult(req);
 
     if (validatorErrors.isEmpty()) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      user.hashedPassword = hashedPassword;
+      user.password = hashedPassword;
       await user.save();
       loginUser(req, res, user);
       res.redirect('/');
     } else {
       const errors = validatorErrors.array().map((error) => error.msg);
+      console.log(errors)
       res.render('user-register', {
         title: 'Register',
         user,
@@ -122,11 +124,22 @@ router.get('/login', csrfProtection, (req, res) => {
 });
 
 
+// userAuth
+const loginValidators = [
+  check('email')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Email Address'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Password'),
+];
+// userAuth
+
 // userAuth REVIEW
 router.post('/login', csrfProtection, loginValidators,
   asyncHandler(async (req, res) => {
     const {
-      emailAddress,
+      email,
       password,
     } = req.body;
 
@@ -135,31 +148,36 @@ router.post('/login', csrfProtection, loginValidators,
 
     if (validatorErrors.isEmpty()) {
       // Attempt to get the user by their email address.
-      const user = await db.User.findOne({ where: { emailAddress } });
+      const user = await User.findOne({ where: { email } });
 
-      if (user !== null) {
+      console.log(user);
+      if (user) {
         // If the user exists then compare their password
         // to the provided password.
-        const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
-
+        console.log("before password match")
+        const passwordMatch = await bcrypt.compare(password, user.password.toString());
+        console.log(passwordMatch)
         if (passwordMatch) {
           // If the password hashes match, then login the user
           // and redirect them to the default route.
           // TODO Login the user.
+          console.log("matched")
           loginUser(req, res, user);
           return res.redirect('/');
         }
       }
-
-      // Otherwise display an error message to the user.
+        // Otherwise display an error message to the user.
       errors.push('Login failed for the provided email address and password');
+
     } else {
       errors = validatorErrors.array().map((error) => error.msg);
-    }
+
+      }
+
 
     res.render('user-login', {
       title: 'Login',
-      emailAddress,
+      email,
       errors,
       csrfToken: req.csrfToken(),
     });
@@ -169,10 +187,9 @@ router.post('/login', csrfProtection, loginValidators,
 // logout User
 router.post('/logout', (req, res) => {
   logoutUser(req, res);
-  res.redirect('/login');
+  res.redirect('/');
 });
 // logout User
-
 
 
 router.get("/", async (req, res) => {
@@ -189,18 +206,6 @@ router.get("/:id/bookshelves", async (req, res) => {
   const user = await User.findByPk(req.params.id);
   res.render("bookshelves", { user });
 })
-
-// userAuth REVIEW
-router.get("/register", csrfProtection, (req, res) => { // REVIEW
-  const user = User.build();
-  res.render('user-registration', { // REVIEW
-    title: 'Register',
-    user,
-    csrfToken: req.csrfToken(),
-  });
-});
-// userAuth REVIEW
-
 
 
 router.get("/:id/bookshelves/1", async (req, res) => {
