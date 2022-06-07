@@ -12,7 +12,7 @@ const router = express.Router();
 
 const db = require("../db/models");
 
-=======
+
 router.get("/", async(req,res) => {
   const mangas = await db.Manga.findAll();
   res.render('mangas', {mangas});

@@ -1,21 +1,16 @@
 const express = require('express');
 
-
-//MODELS
-=======
 //PACKAGES
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const session = require('express-session');
+const session = require("express-session");
+const createError = require('http-errors');
 
-
-
+const { sessionSecret } = require("./config");
 
 //ROUTERS
 const usersRouter = require('./routes/users');
 const mangaRouter = require('./routes/mangas');
-
 
 //CREATING APP OBJECT
 const app = express();
@@ -25,6 +20,7 @@ app.use(express.static('./public'));
 
 //SETTINGS
 app.set("view engine", "pug");
+app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 
 
@@ -32,39 +28,20 @@ app.use(express.urlencoded({ extended: false }));
 // const SequelizeStore = require('connect-session-sequelize')
 
 // PERSISTING USER STATE
-const session = require('express-session');
-const { sessionSecret } = require('./config');
-
-// RESTORING USER FROM SESSION
-const { restoreUser } = require('./auth');
+// app.use(cookieParser(sessionSecret));
+app.use(cookieParser())
+app.use(session({
+  secret: "sessionSecret",
+  resave: false,
+  saveUninitialized: false,
+}));
 
 //ROUTER USE
 app.use('/users', usersRouter);
 app.use('/mangas', mangaRouter);
 
-// RESTORING USER FROM SESSION
-app.use(restoreUser);
 
-app.use(morgan('dev')); // should we use this?
 
-// PERSISTING USER STATE
-app.use(cookieParser(sessionSecret));
-app.use(session({
-  name: 'reading-list.sid',
-  secret: sessionSecret,
-  resave: false,
-  saveUninitialized: false,
-}));
-
-//MIDDLEWARE
-// app.use(
-//   session({
-//     secret: superSecret,
-//     store,
-//     saveUninitialized: false,
-//     resave: false,
-//   })
-// )
 
 // create Session table if it doesn't already exist
 // store.sync();
