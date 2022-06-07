@@ -1,23 +1,30 @@
 const express = require("express");
 
+// userAuth
+const { csrfProtection, asyncHandler } = require('./users');
+// userAuth
+
+// requireAuth
+const { requireAuth } = require('../auth');
+// requireAuth
+
 const router = express.Router();
 
 const db = require("../db/models");
 
-
+=======
 router.get("/", async(req,res) => {
-  console.log("mangas")
   const mangas = await db.Manga.findAll();
-  console.log(mangas)
   res.render('mangas', {mangas});
 })
 
 router.get("/:id", async(req,res) => {
   const manga = await db.Manga.findByPk(req.params.id);
   res.render('manga', {manga});
+
 })
 
-router.get("/:id/reviews", async(req,res) => {
+router.get("/:id/reviews", async (req, res) => {
   const id = req.params.id
   const reviews = await db.Review.findAll({
     where: { mangaId: id },
@@ -26,7 +33,7 @@ router.get("/:id/reviews", async(req,res) => {
       { model: db.User, as: "user" },
     ],
   });
-  res.render('reviews', {reviews});
+  res.render('reviews', { reviews });
 })
 
 

@@ -1,10 +1,14 @@
 const express = require('express');
 
+
+//MODELS
+=======
 //PACKAGES
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
+
 
 
 
@@ -27,9 +31,30 @@ app.use(express.urlencoded({ extended: false }));
 
 // const SequelizeStore = require('connect-session-sequelize')
 
+// PERSISTING USER STATE
+const session = require('express-session');
+const { sessionSecret } = require('./config');
+
+// RESTORING USER FROM SESSION
+const { restoreUser } = require('./auth');
+
 //ROUTER USE
 app.use('/users', usersRouter);
 app.use('/mangas', mangaRouter);
+
+// RESTORING USER FROM SESSION
+app.use(restoreUser);
+
+app.use(morgan('dev')); // should we use this?
+
+// PERSISTING USER STATE
+app.use(cookieParser(sessionSecret));
+app.use(session({
+  name: 'reading-list.sid',
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+}));
 
 //MIDDLEWARE
 // app.use(
