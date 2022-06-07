@@ -36,7 +36,14 @@ router.get("/:id/reviews", async (req, res) => {
   res.render('reviews', { reviews });
 })
 
-
+router.get("/:id/reviews/add", async(req, res) =>  {
+  const id = req.params.id
+  const manga = await db.Manga.findByPk(id)
+  res.render('add-review', {
+    manga,
+    id
+  })
+});
 
 
 module.exports = router;
