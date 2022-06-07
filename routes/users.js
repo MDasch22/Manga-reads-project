@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
+
 const { User, Bookshelf, Manga } = require('../models');
 
 // userAuth
@@ -213,6 +214,9 @@ router.post('/user/logout', (req, res) => {
   res.redirect('/user/login');
 });
 // logout User
+=======
+const {User, Bookshelf, Manga} = require('../db/models');
+
 
 router.get("/", async (req, res) => {
   const users = await User.findAll();
