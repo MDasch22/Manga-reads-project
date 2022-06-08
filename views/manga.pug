@@ -11,4 +11,10 @@ html
     div
     p= `${manga.releaseDate}`
     div
-    a(href= `/mangas/${manga.id}/reviews`) Reviews
+    select(name="bsSelector")
+     each bookshelf in bookshelves
+      option(href=`/mangas/${manga.id}/${bookshelf.id}`) #{bookshelf.name}
+
+    div
+    a(href= `/mangas/${manga.id}/reviews`)
+      button(type='button') View all reviews

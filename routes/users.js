@@ -2,14 +2,12 @@ const express = require('express');
 const { check, validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
 
-const { User, Bookshelf, Manga } = require('../db/models');
-const csrf = require('csurf');
-const csrfProtection = csrf({ cookie: true });
+const { User, Bookshelf, Manga, MangaBookshelf} = require('../db/models');
+const { csrfProtection, asyncHandler } = require('./utils');
 const { loginUser, logoutUser } = require('../auth');
 
 const router = express.Router();
 // userAuth
-const asyncHandler = (handler) => (req, res, next) => handler(req, res, next).catch(next);
 // userAuth
 
 
@@ -87,21 +85,48 @@ router.post('/register', csrfProtection, userValidators,
       password,
     } = req.body;
 
-    const user = User.build({
-      email,
-      firstName,
-      lastName,
-      password
-    });
-
     const validatorErrors = validationResult(req);
 
+    // const allUsers = await User.findAll()
+    // const lastUserid = allUsers[allUsers.length-1].id
+
+
+    // console.log(user)
     if (validatorErrors.isEmpty()) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      user.password = hashedPassword;
+      // user.password = hashedPassword;
+
+      const user = User.build({
+        email,
+        firstName,
+        lastName,
+        password: hashedPassword,
+      });
       await user.save();
       loginUser(req, res, user);
-      res.redirect('/');
+
+      const {userId} = req.session.auth
+      console.log("HERE", userId)
+      const wantToRead = await Bookshelf.build({
+        userId,
+        name: "Want To Read",
+      });
+      const currentlyReading = await Bookshelf.build({
+        userId,
+        name: "Currently Reading",
+      });
+      const read = await Bookshelf.build({
+        userId,
+        name: "Read",
+      });
+
+
+
+      await wantToRead.save();
+      await currentlyReading.save();
+      await read.save();
+
+      res.redirect("/");
     } else {
       const errors = validatorErrors.array().map((error) => error.msg);
       console.log(errors)
@@ -203,8 +228,18 @@ router.get("/:id(\\d+)", async (req, res) => {
 });
 
 router.get("/:id/bookshelves", async (req, res) => {
-  const user = await User.findByPk(req.params.id);
-  res.render("bookshelves", { user });
+  const id = req.params.id
+  const bookshelves = await Bookshelf.findAll({
+    include: [{
+      model: User
+    }],
+    where: {userId: id},
+  })
+  // console.log(bookshelves)
+  res.render("bookshelves", { bookshelves });
+  //this will give us an arr of all bookshelves from this user
+  //booksehlves will follow our three categories
+  //booshelves[0].User should give us our user
 })
 
 
@@ -217,12 +252,16 @@ router.get("/:id/bookshelves/1", async (req, res) => {
   // });
   const id = req.params.id
   const bookshelf = await Bookshelf.findAll({
-    where: { userId: id, name: "Want To Read" },
     include: [
-      { model: User, as: "user" },
-      { model: Manga, as: 'manga' }
+      { model: User },
+      { model: Manga}
     ],
+    where: { userId: id, name: "Want To Read" },
+    // raw: true
   });
+  // console.log(bookshelf)
+  // console.log(bookshelf)
+  console.log(bookshelf[0].Mangas)
   res.render("WantToRead", { bookshelf });
 })
 module.exports = router;

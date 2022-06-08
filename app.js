@@ -11,6 +11,7 @@ const { sessionSecret } = require("./config");
 //ROUTERS
 const usersRouter = require('./routes/users');
 const mangaRouter = require('./routes/mangas');
+const { restoreUser } = require('./auth');
 
 //CREATING APP OBJECT
 const app = express();
@@ -21,21 +22,21 @@ app.use(express.static('./public'));
 //SETTINGS
 app.set("view engine", "pug");
 app.use(logger('dev'));
-app.use(express.urlencoded({ extended: false }));
-
-
-
-// const SequelizeStore = require('connect-session-sequelize')
-
 // PERSISTING USER STATE
 // app.use(cookieParser(sessionSecret));
 app.use(cookieParser())
 app.use(session({
-  secret: "sessionSecret",
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
 }));
 
+
+// const SequelizeStore = require('connect-session-sequelize')
+
+
+app.use(express.urlencoded({ extended: false }));
+app.use(restoreUser);
 //ROUTER USE
 app.use('/users', usersRouter);
 app.use('/mangas', mangaRouter);
@@ -70,6 +71,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+  console.log(err)
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
