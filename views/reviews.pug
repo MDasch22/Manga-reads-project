@@ -6,5 +6,13 @@ html
     a(href=`reviews/add` value="post")
       button(type='button') Write a review
     each review in reviews
-      p= review.user.firstName
-      p= review.rating
+      ul(id="reviews")
+        label(name="rating") Rating:
+          ul= review.rating
+        label(name="name") Name:
+          ul= review.user.firstName
+        label(name="comment") comments:
+          ul= review.comment
+
+      //- p(value="Name:")= review.user.firstName
+      //- p(value="Rating:")= review.rating

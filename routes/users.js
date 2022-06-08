@@ -2,14 +2,12 @@ const express = require('express');
 const { check, validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
 
-const { User, Bookshelf, Manga } = require('../db/models');
-const csrf = require('csurf');
-const csrfProtection = csrf({ cookie: true });
+const { User, Bookshelf, Manga, MangaBookshelf} = require('../db/models');
+const { csrfProtection, asyncHandler } = require('./utils');
 const { loginUser, logoutUser } = require('../auth');
 
 const router = express.Router();
 // userAuth
-const asyncHandler = (handler) => (req, res, next) => handler(req, res, next).catch(next);
 // userAuth
 
 
@@ -223,6 +221,8 @@ router.get("/:id/bookshelves/1", async (req, res) => {
       { model: Manga, as: 'manga' }
     ],
   });
-  res.render("WantToRead", { bookshelf });
+  console.log(bookshelf)
+  const userBookShelf = bookshelf[0];
+  res.render("WantToRead", { userBookShelf });
 })
 module.exports = router;

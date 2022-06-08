@@ -11,6 +11,7 @@ const { sessionSecret } = require("./config");
 //ROUTERS
 const usersRouter = require('./routes/users');
 const mangaRouter = require('./routes/mangas');
+const { restoreUser } = require('./auth');
 
 //CREATING APP OBJECT
 const app = express();
@@ -21,21 +22,22 @@ app.use(express.static('./public'));
 //SETTINGS
 app.set("view engine", "pug");
 app.use(logger('dev'));
-app.use(express.urlencoded({ extended: false }));
+// PERSISTING USER STATE
+// app.use(cookieParser(sessionSecret));
+app.use(cookieParser())
+app.use(session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+}));
 
 
 
 // const SequelizeStore = require('connect-session-sequelize')
 
-// PERSISTING USER STATE
-// app.use(cookieParser(sessionSecret));
-app.use(cookieParser())
-app.use(session({
-  secret: "sessionSecret",
-  resave: false,
-  saveUninitialized: false,
-}));
 
+app.use(express.urlencoded({ extended: false }));
+app.use(restoreUser);
 //ROUTER USE
 app.use('/users', usersRouter);
 app.use('/mangas', mangaRouter);
