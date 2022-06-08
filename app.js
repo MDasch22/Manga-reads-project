@@ -6,8 +6,10 @@ const logger = require('morgan');
 const session = require("express-session");
 const createError = require('http-errors');
 
+
 const { sessionSecret } = require("./config");
 
+const db = require("./db/models");
 //ROUTERS
 const usersRouter = require('./routes/users');
 const mangaRouter = require('./routes/mangas');
@@ -55,11 +57,14 @@ app.use('/mangas', mangaRouter);
 //req and the res are given to us by express.
 //req has all of the request info from forms and stuff
 //and the res is what we give it in the cb below.
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   //send is a built-in response method.
+  const mangas = await db.Manga.findAll();
   res.render('home', {
     //THIS OBJECT IS THE BRIDGE BETWEEN OUR FRONTEND AND BACKEND. MOST IMPORTANT THING.
-    sentence: "bobus moment"
+    sentence: "bobus moment",
+    title: "Mangas",
+    mangas
   })
 })
 

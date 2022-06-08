@@ -1,6 +1,7 @@
 extend home.pug
 
 block content
+  img(src=`${manga.coverImg}`, alt="coverImg" style="width:200px")
   form(action=`/mangas/${id}/reviews/add` method="post")
       input(type='hidden' name='_csrf' value=csrfToken)
       label(for='rating') Rating
