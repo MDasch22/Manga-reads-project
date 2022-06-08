@@ -1,10 +1,10 @@
 html
   head
   body
-    h3= `${user.firstName}'s Bookshelves`
-    a(href= `/users/${user.id}/bookshelves/1`) Want To Read
+    h3= `${bookshelves[0].User.firstName}'s Bookshelves`
+    a(href= `/users/${bookshelves[0].User.id}/bookshelves/1`) Want To Read
     div
-    a(href= `/users/${user.id}/bookshelves/2`) Currently Reading
+    a(href= `/users/${bookshelves[0].User.id}/bookshelves/2`) Currently Reading
     div
-    a(href= `/users/${user.id}/bookshelves/3`) Read
+    a(href= `/users/${bookshelves[0].User.id}/bookshelves/3`) Read
     div

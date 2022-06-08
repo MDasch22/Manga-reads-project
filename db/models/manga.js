@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Manga.hasMany(models.Review, {as: "review", foreignKey: "mangaId"})
     Manga.belongsToMany(models.Bookshelf, {
-      as: "bookshelf",
       through: "MangaBookshelf",
       foreignKey: "mangaId",
       otherKey: "bookshelfId"
