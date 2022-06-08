@@ -1,7 +1,8 @@
-html
+extends home.pug
+
+block content
   head
     title Mangareads
-    link(rel="stylesheet", href="/css/general.css")
   body
     table
       thead
@@ -10,8 +11,10 @@ html
           th Title
           th Genre
       tbody
+
         each manga in mangas
           tr
+            td: img(src=`${manga.coverImg}`, alt="coverImg" style="width:100px" )
             td= `${manga.title}`
             td= `${manga.genre}`
             td: a(href= `/mangas/${manga.id}`) More Info

@@ -1,6 +1,7 @@
-html
-  head
-    title Mangareads
+extend home.pug
+
+block content
+  img(src=`${reviews[0].Manga.coverImg}`, alt="coverImg" style="width:200px")
   body
     h1= reviews[0].Manga.title
     a(href=`reviews/add` value="post")

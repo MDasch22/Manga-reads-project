@@ -3,6 +3,11 @@ const express = require("express");
 // userAuth
 const { check, validationResult } = require('express-validator');
 const { csrfProtection, asyncHandler } = require('./utils');
+
+//WILL ALLOW GUEST USER TO ADD PICTURE OF NEW BOOK CREATED
+const multer = require('multer')
+const path = require("path")
+
 // userAuth
 
 // requireAuth

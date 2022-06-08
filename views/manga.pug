@@ -1,6 +1,8 @@
-html
-  head
+extends home.pug
+
+block content
   body
+    img(src=`${manga.coverImg}`, alt="coverImg" style="width:200px")
     h2= `${manga.title}`
     div
     h3= `${manga.author}`
