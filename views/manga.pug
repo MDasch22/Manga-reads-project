@@ -13,5 +13,10 @@ block content
     div
     p= `${manga.releaseDate}`
     div
+    select(name="bsSelector")
+     each bookshelf in bookshelves
+      option(href=`/mangas/${manga.id}/${bookshelf.id}`) #{bookshelf.name}
+
+    div
     a(href= `/mangas/${manga.id}/reviews`)
       button(type='button') View all reviews

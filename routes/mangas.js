@@ -24,11 +24,31 @@ router.get("/", async(req,res) => {
   res.render('mangas', {mangas});
 })
 
-router.get("/:id", async(req,res) => {
-  const manga = await db.Manga.findByPk(req.params.id);
-  res.render('manga', {manga});
-
+router.get("/:mangaId", async(req,res) => {
+  const mangaId = req.params.mangaId
+  const manga = await db.Manga.findByPk(mangaId);
+  //need bookshleves here
+  //use the auth to get user id
+  //findall bookshleves where userId = user.id
+  const { userId } = req.session.auth;
+  const bookshelves = await db.Bookshelf.findAll({
+    where: {userId}
+  })
+  res.render("manga", { manga, bookshelves, userId });
 })
+
+router.post("/:mangaId/:bookshelfId", async(req,res) => {
+  const bookshelfId = req.params.bookshelfId
+  const mangaId = req.params.mangaId
+
+  //create new insert in our mangabookshelves table
+  const newshelf = await db.MangaBookshelf.build({
+    bookshelfId,
+    mangaId
+  })
+  await newshelf.save()
+})
+
 
 router.get("/:id/reviews", async (req, res) => {
   const id = req.params.id
