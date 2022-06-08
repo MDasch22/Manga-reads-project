@@ -1,7 +1,8 @@
 const express = require("express");
 
 // userAuth
-const { csrfProtection, asyncHandler } = require('./users');
+const { check, validationResult } = require('express-validator');
+const { csrfProtection, asyncHandler } = require('./utils');
 // userAuth
 
 // requireAuth
@@ -44,6 +45,37 @@ router.get("/:id/reviews/add", async(req, res) =>  {
     id
   })
 });
+
+const reviewValidators = [
+  check('rating')
+    .exists({checkFalsy:true})
+    .withMessage('Please provide a rating between 1-5')
+]
+
+router.post("/:id/reviews/add", requireAuth, csrfProtection, reviewValidators,
+asyncHandler (async(req, res, next) => {
+  const { rating, comment  } = req.body
+  const id = req.params.id
+  const newReview = await db.Review.build({
+    rating,
+    comment
+  })
+  const validatorErrors = validationResult(req);
+
+    if (validatorErrors.isEmpty()) {
+      await newReview.save();
+      res.redirect(`/:id/reviews`);
+    } else {
+      const errors = validatorErrors.array().map((error) => error.msg);
+      res.render('add-review', {
+        newReview,
+        id,
+        errors,
+        csrfToken: req.csrfToken(),
+      });
+    }
+    // next()
+}));
 
 
 module.exports = router;
