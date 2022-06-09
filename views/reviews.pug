@@ -2,9 +2,14 @@ extend home.pug
 
 block content
   body
-    if reviews !== null
-      h1= reviews[0].Manga.title
-      a(href=`reviews/add` value="post")
+
+    h1= reviews[0].Manga.title
+    if userId !== null
+      a(href=`/mangas/${id}/reviews/add` value="post")
+        button(type='button') Write a review
+    else
+      //- a(href=`/users/login`)
+      a(href=`/mangas/${id}/reviews/users/login`)
         button(type='button') Write a review
       ul(id="reviews")
         each review in reviews
@@ -14,7 +19,6 @@ block content
             li= review.user.firstName
           label(name="comment") comments:
             li= review.comment
-    else
-      h1= manga.title
-      a(href=`reviews/add` value="post")
-        button(type='button') Write a review
+
+
+

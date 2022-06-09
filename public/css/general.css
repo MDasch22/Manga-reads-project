@@ -1,3 +1,33 @@
-.userContainer {
-  border: 2px solid black
+.mangaCard {
+  max-width: 30px;
+  max-height: 120px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-areas:
+      'header'
+      'header'
+      'header'
+      'footer'
+      'footer';
+}
+
+.cardTop{
+  grid-area: header;
+}
+.cardBottom{
+  grid-area: footer;
+}
+
+.mangasTogether {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas:
+      'card card card card'
+      'card card card card'
+      'card card card card';
+}
+.indivCard {
+  grid-area: card;
 }

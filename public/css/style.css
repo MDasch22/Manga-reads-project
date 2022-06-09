@@ -1,0 +1,141 @@
+body{
+  margin: 0;
+  font-family: sans-serif;
+  background: #aaa5ad;
+}
+.mangaCardTitle{
+  text-align: center;
+  font-size: 12px;
+  margin-left: 10px;
+  margin-right: 10px;
+  /* padding-top: 10px; */
+}
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+}
+.content{
+  width: 20%;
+  height: 180px;
+  margin: 15px;
+  box-sizing:border-box;
+  float: left;
+  text-align: center;
+  border-radius: 16px;
+  cursor: pointer;
+  padding-top: 8px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.26), 0 10px 10px rgba(0,0,0,0.21);
+  transition: .5s;
+  background: #e5e5e5;
+}
+.content:hover{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.14), 0 3px 6px rgba(0, 0, 0, 0.22);
+  transform: translate(0px, -6px);
+}
+.img{
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  border-radius: 6px;
+  margin: 0 auto;
+  display: block;
+}
+.mangaCardGenre{
+  font-size: 8;
+  text-align: center;
+  color: black;
+  /* padding-top: 0 8px; */
+  margin-left: 10px;
+  margin-right: 10px;
+}
+a{
+  text-decoration: none;
+  color: black;
+}
+.mangasTitle{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+@media(max-width:800px){
+  .mangaCardTitle{ font-size: 9px;}
+  .mangaCardGenre{ font-size: 6px;}
+  .content{ width: 108px; height: 128px}
+  .img{width: 60px; height:60px}
+}
+@media(max-width:600px){
+  .mangaCardTitle{ font-size: 8px;}
+  .mangaCardGenre{ visibility: hidden;}
+  .content{ width: 100px; height: 100px;}
+  .img{width: 60px; height:60px}
+}
+@media(max-width:508px){
+  .mangaCardTitle{ font-size: 8px;}
+  .mangaCardGenre{ font-size: hidden;}
+  .content{ width: 100px; height: 100px}
+  .img{width: 60px; height:60px}
+}
+@media(max-width:430px){
+  .mangaCardTitle{ visibility: hidden;}
+  .mangaCardGenre{ visibility: hidden;}
+  .content{ width: 80px; height: 80px}
+  .img{width: 60px; height:60px}
+  .gallery{width: 70%; margin-top: 50px; margin-left: 50px;}
+}
+@media(max-width:390px){
+  .mangaCardTitle{ visibility: hidden;}
+  .mangaCardGenre{ visibility: hidden;}
+  .content{ width: 80px; height: 80px}
+  .img{width: 60px; height:60px}
+}
+@media(max-width:280px){
+  .mangaCardTitle{ visibility: hidden;}
+  .mangaCardGenre{ visibility: hidden;}
+  .content{ width: 80%; height: 80px}
+  .img{width: 60px; height:60px}
+}
+
+
+
+/* @media(max-width:800px){
+  .mangaCardTitle{ font-size: 9px;}
+  .mangaCardGenre{ font-size: 6px;}
+  .content{ width: 108px; height: 118px}
+  .img{width: 60px; height:60px}
+}
+@media(max-width:600px){
+  .mangaCardTitle{ font-size: 8px;}
+  .mangaCardGenre{ visibility: hidden;}
+  .content{ width: 100px; height: 100px}
+  .img{width: 60px; height:60px}
+  .gallery {width: 65%; margin-top: 50px; margin-left: 75px;}
+}
+@media(max-width:519px){
+  .mangaCardTitle{ font-size: 8px;}
+  .mangaCardGenre{ font-size: hidden;}
+  .content{ width: 100px; height: 100px}
+  .img{width: 60px; height:60px}
+  .gallery{width: 65%; margin-top: 50px; margin-left: 75px;}
+}
+@media(max-width:430px){
+  .mangaCardTitle{ visibility: hidden;}
+  .mangaCardGenre{ visibility: hidden;}
+  .content{ width: 80px; height: 80px}
+  .img{width: 60px; height:60px}
+  .gallery{width: 70%; margin-top: 50px; margin-left: 50px;}
+}
+@media(max-width:390px){
+  .mangaCardTitle{ visibility: hidden;}
+  .mangaCardGenre{ visibility: hidden;}
+  .content{ width: 80px; height: 80px}
+  .img{width: 60px; height:60px}
+}
+@media(max-width:280px){
+  .mangaCardTitle{ visibility: hidden;}
+  .mangaCardGenre{ visibility: hidden;}
+  .content{ width: 80%; height: 80px}
+  .img{width: 60px; height:60px}
+} */

@@ -6,8 +6,10 @@ block content
       input(type='hidden' name='_csrf' value=csrfToken)
       //- input(type='text' id='rating' name='rating' required)
       div(class="rating")
+
         label(for='rating') Rating
         input(type="number" id="rating" name="rating")
+
         //- input(type="radio" id="star5" name="rate" value="5")
         label(id="star5" title='text' style="opacity: 50%") ⭐
         //- input(type="radio" id="star4" name="rate" value="4")
@@ -18,6 +20,9 @@ block content
         label(id="star2" title='text' style="opacity: 50%") ⭐
         //- input(type="radio" id="star1" name="rate" value="1")
         label(id="star1" title='text' style="opacity: 50%") ⭐
+        div
         label(for='review') What did you think?
+        div
         textarea(id='comment' name='comment' placeholder="Enter your review (optional)")
+
       button(type="submit") Post review

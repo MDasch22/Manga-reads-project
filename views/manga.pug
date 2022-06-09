@@ -1,8 +1,6 @@
-extends home.pug
-
-block content
+html
+  head
   body
-    img(src=`${manga.coverImg}`, alt="coverImg" style="width:200px")
     h2= `${manga.title}`
     div
     h3= `${manga.author}`
@@ -13,12 +11,17 @@ block content
     div
     p= `${manga.releaseDate}`
     div
-    select(name="bsSelector" id=`${manga.id}` class="book-shelf")
-      option(value="") Select One
-      each bookshelf in bookshelves
-        option(value=`${bookshelf.id}`) #{bookshelf.name}
 
-    div
-    a(href= `/mangas/${manga.id}/reviews`)
-      button(type='button') View all reviews
+    if userId !== null
+      select(name="bsSelector" id=`${manga.id}` class="book-shelf")
+        option(value="") Select One
+        each bookshelf in bookshelves
+          option(value=`${bookshelf.id}`) #{bookshelf.name}
+      div
+      a(href= `/mangas/${manga.id}/reviews`)
+        button(type='button') View all reviews
+    else
+      div
+      a(href= `/mangas/${manga.id}/reviews`)
+        button(type='button') View all reviews
     script(src="/js/index.js" type="module")

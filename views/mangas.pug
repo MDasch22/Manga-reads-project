@@ -1,20 +1,34 @@
-extends home.pug
-
-block content
+html
   head
     title Mangareads
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="/css/style.css")
   body
-    table
-      thead
-        tr
-          th
-          th Title
-          th Genre
-      tbody
+    div(class="mangasTitle")
+      h1 Mangas
+    div(class="gallery")
+      each manga in mangas
+        div(class="content")
+          a(href= `/mangas/${manga.id}`)
+            img(src=`${manga.coverImg}` class="img")
+            h3(class="mangaCardTitle") #{manga.title}
+            h4(class="mangaCardGenre") #{manga.genre}
 
-        each manga in mangas
-          tr
-            td: img(src=`${manga.coverImg}`, alt="coverImg" style="width:100px" )
-            td= `${manga.title}`
-            td= `${manga.genre}`
-            td: a(href= `/mangas/${manga.id}`) More Info
+//- html
+//-   head
+//-     title Mangareads
+//-     link(rel="stylesheet", href="/css/general.css")
+//-   body
+//-     table
+//-       thead
+//-         tr
+//-           th
+//-           th Title
+//-           th Genre
+//-       tbody
+//-         each manga in mangas
+//-           tr
+//-             td= `${manga.title}`
+//-             td= `${manga.genre}`
+//-             td: a(href= `/mangas/${manga.id}`) More Info

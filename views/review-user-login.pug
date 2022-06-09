@@ -1,0 +1,15 @@
+extends home.pug
+
+include user-form.pug
+
+block content
+  +validationErrorSummary(errors)
+  form(action=`/mangas/${id}/reviews/users/login` method='post')
+    input(type='hidden' name='_csrf' value=csrfToken)
+    +field('Email Address', 'email', email)
+    +field('Password', 'password', null, 'text')
+    div(class='py-4')
+      button(type='submit' class='btn btn-primary') Login
+      a(href='/' class='btn btn-warning ml-2') Cancel
+  div
+    p: a(href='/users/register') Don't have an account?
