@@ -2,28 +2,36 @@ extend home.pug
 
 block content
   body
-
     h1= reviews[0].Manga.title
     if userId !== null
       a(href=`/mangas/${id}/reviews/add` value="post")
         button(type='button') Write a review
-      ul(id="reviews")
-        each review in reviews
-          label(name="rating") Rating:
-            li= review.rating
-          label(name="name") Name:
-            li= review.user.firstName
-          label(name="comment") comments:
-            li= review.comment
+      table(id="reviews")
+        thead(class="tableHeader")
+          tr
+            th(name="rating") Rating:
+            th(name="firstName") Name:
+            th(name="comments") Comments:
+        tbody
+          each review in reviews
+            tr
+              td= review.rating
+              td= review.user.firstName
+              td= review.comment
+              td: a(href=`/mangas/${id}/reviews/edit/${review.id}`) Edit
     else
       //- a(href=`/users/login`)
-      a(href=`/mangas/${id}/reviews/users/login`)
+      a(href=`/mangas/${id}/reviews/add` value="post")
         button(type='button') Write a review
-      ul(id="reviews")
-        each review in reviews
-          label(name="rating") Rating:
-            li= review.rating
-          label(name="name") Name:
-            li= review.user.firstName
-          label(name="comment") comments:
-            li= review.comment
+      table(id="reviews")
+        thead(class="tableHeader")
+          tr
+            th(name="rating" scope='col') Rating:
+            th(name="firstName" scope='col') Name:
+            th(name="comments" scope='col') Comments:
+        tbody
+          each review in reviews
+            tr
+              td= review.rating
+              td= review.user.firstName
+              td= review.comment
