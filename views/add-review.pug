@@ -4,10 +4,10 @@ block content
   img(src=`${manga.coverImg}`, alt="coverImg" style="width:200px")
   form(action=`/mangas/${id}/reviews/add` method="post")
       input(type='hidden' name='_csrf' value=csrfToken)
-      label(for='rating') Rating
       //- input(type='text' id='rating' name='rating' required)
       div(class="rating")
-        input(type="text" id="rating-index")
+        label(for='rating') Rating
+        input(type="number" id="rating" name="rating")
         //- input(type="radio" id="star5" name="rate" value="5")
         label(id="star5" title='text' style="opacity: 50%") ⭐
         //- input(type="radio" id="star4" name="rate" value="4")
@@ -20,4 +20,4 @@ block content
         label(id="star1" title='text' style="opacity: 50%") ⭐
         label(for='review') What did you think?
         textarea(id='comment' name='comment' placeholder="Enter your review (optional)")
-        button(type="submit") Post review
+      button(type="submit") Post review
