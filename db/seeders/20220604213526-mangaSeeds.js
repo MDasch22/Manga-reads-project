@@ -52,6 +52,28 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          coverImg: "https://images-na.ssl-images-amazon.com/images/I/81VAgJoB3BL.jpg",
+          title: "One Punch Man, Vol. 1" ,
+          author: "Yusuke Murata",
+          description:
+          "Every time a promising villain appears, Saitama beats the snot out of 'em with one punch! Can he finally find an opponent who can go toe-to-toe with him and give his life some meaning? Or is he doomed to a life of superpowered boredom?",
+          genre: "Action/Comedy/Fiction",
+          releaseDate: "June 14, 2012",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          coverImg: "https://images-na.ssl-images-amazon.com/images/I/81s8xJUzWGL.jpg",
+          title: "Chainsaw Man, Vol. 1" ,
+          author: "Tatsuki Fujimoto",
+          description:
+          "Denji’s a poor young man who’ll do anything for money, even hunting down devils with his pet devil-dog Pochita. He’s a simple man with simple dreams, drowning under a mountain of debt. But his sad life gets turned upside down one day when he’s betrayed by someone he trusts. Now with the power of a devil inside him, Denji’s become a whole new man—Chainsaw Man!",
+          genre: "Action/Comedy/Fiction",
+          releaseDate: "June 14, 2012",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

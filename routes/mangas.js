@@ -8,8 +8,11 @@ const { csrfProtection, asyncHandler } = require('./utils');
 const { loginUser, logoutUser } = require("../auth");
 
 //WILL ALLOW GUEST USER TO ADD PICTURE OF NEW BOOK CREATED
+
 const router = express.Router();
 const multer = require('multer')
+
+
 const path = require("path")
 const cookieParser = require("cookie-parser")
 
@@ -49,6 +52,30 @@ router.get("/:mangaId", async(req,res) => {
 router.post("/:mangaId/:bookshelfId", async(req,res) => {
   const bookshelfId = req.params.bookshelfId
   const mangaId = req.params.mangaId
+  const { userId } = req.session.auth;
+  const bookShelves = [];
+  for(let i=bookshelfId-2; i<bookshelfId+2; i++){
+    const bookShelf = await db.Bookshelf.findOne({
+      where: {
+        id: i
+      }
+    })
+    if(bookShelf&&userId === bookShelf.userId){
+      bookShelves.push(bookShelf.id)
+    }
+  }
+
+  const mangaBookShelves = await db.MangaBookshelf.findAll({
+    where:{
+      bookshelfId: bookShelves,
+      mangaId
+    }
+  })
+  if(mangaBookShelves){
+    for(let i=0; i<mangaBookShelves.length; i++){
+      await mangaBookShelves[i].destroy();
+    }
+  }
 
   //create new insert in our mangabookshelves table
   const newshelf = await db.MangaBookshelf.build({
@@ -61,28 +88,32 @@ router.post("/:mangaId/:bookshelfId", async(req,res) => {
 
 router.get("/:id/reviews", async (req, res) => {
   const id = req.params.id
-  const reviews = await db.Review.findAll({
+  const manga = await db.Manga.findByPk(id)
+  let reviews = await db.Review.findAll({
     where: { mangaId: id },
     include: [
       { model: db.Manga, as: "Manga" },
       { model: db.User, as: "user" },
     ],
   });
-  if (req.session.auth) {
-    const { userId } = req.session.auth;
-    res.render('reviews', { reviews, userId, id });
+
+
+  if(reviews) {
+    res.render('reviews', { reviews, manga})
   } else {
-    const userId = null;
-    res.render('reviews', { reviews, userId, id });
+    reviews = null
+    res.render('reviews', {reviews, manga})
   }
+
 })
 
-router.get("/:id/reviews/add", async(req, res) =>  {
+router.get("/:id/reviews/add", csrfProtection, async(req, res) =>  {
   const id = req.params.id
   const manga = await db.Manga.findByPk(id)
   res.render('add-review', {
     manga,
-    id
+    id,
+    csrfToken: req.csrfToken(),
   })
 });
 
@@ -92,17 +123,25 @@ const reviewValidators = [
     .withMessage('Please provide a rating between 1-5')
 ]
 
-router.post( "/:id/reviews/add", requireAuth, reviewValidators,
-  asyncHandler(async (req, res) => {
-    const id = req.params.id;
 
-    const { rating, comment } = req.body;
 
+router.post("/:id/reviews/add", requireAuth, csrfProtection, reviewValidators,
+  asyncHandler(async (req, res, next) => {
+    const id = parseInt(req.params.id, 10);
+    const manga = await db.Manga.findByPk(id)
+    const { rating, comment } = req.body
+    const { userId } = req.session.auth
+    // do we need this:
+    // const attraction = await db.Attraction.findByPk(attractionId, { include: ['park'] });
     const newReview = await db.Review.build({
+      userId,
+      mangaId: id,
       rating,
-      comment,
-    });
+      comment
+    })
     const validatorErrors = validationResult(req);
+    console.log(validatorErrors)
+
 
     if (validatorErrors.isEmpty()) {
       await newReview.save();
@@ -111,12 +150,14 @@ router.post( "/:id/reviews/add", requireAuth, reviewValidators,
       const errors = validatorErrors.array().map((error) => error.msg);
       res.render("add-review", {
         newReview,
+        manga,
         id,
         errors,
         // csrfToken: req.csrfToken(),
       });
     }
     // next()
+
   })
 );
 
@@ -140,6 +181,7 @@ const loginValidators = [
     .withMessage("Please provide a value for Password"),
 ];
 // userAuth
+
 
 // userAuth REVIEW
 router.post( "/:id/reviews/users/login", csrfProtection, loginValidators, asyncHandler(async (req, res) => {

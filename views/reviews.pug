@@ -1,8 +1,8 @@
 extend home.pug
 
 block content
-  img(src=`${reviews[0].Manga.coverImg}`, alt="coverImg" style="width:200px")
   body
+
     h1= reviews[0].Manga.title
     if userId !== null
       a(href=`/mangas/${id}/reviews/add` value="post")
@@ -11,15 +11,14 @@ block content
       //- a(href=`/users/login`)
       a(href=`/mangas/${id}/reviews/users/login`)
         button(type='button') Write a review
-    each review in reviews
       ul(id="reviews")
-        label(name="rating") Rating:
-          ul= review.rating
-        label(name="name") Name:
-          ul= review.user.firstName
-        label(name="comment") comments:
-          ul= review.comment
+        each review in reviews
+          label(name="rating") Rating:
+            li= review.rating
+          label(name="name") Name:
+            li= review.user.firstName
+          label(name="comment") comments:
+            li= review.comment
 
 
-      //- p(value="Name:")= review.user.firstName
-      //- p(value="Rating:")= review.rating
+

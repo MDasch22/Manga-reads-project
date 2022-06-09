@@ -11,10 +11,12 @@ html
     div
     p= `${manga.releaseDate}`
     div
+
     if userId !== null
-      select(name="bsSelector")
+      select(name="bsSelector" id=`${manga.id}` class="book-shelf")
+        option(value="") Select One
         each bookshelf in bookshelves
-          option(href=`/mangas/${manga.id}/${bookshelf.id}`) #{bookshelf.name}
+          option(value=`${bookshelf.id}`) #{bookshelf.name}
       div
       a(href= `/mangas/${manga.id}/reviews`)
         button(type='button') View all reviews
@@ -22,3 +24,4 @@ html
       div
       a(href= `/mangas/${manga.id}/reviews`)
         button(type='button') View all reviews
+    script(src="/js/index.js" type="module")
