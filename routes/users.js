@@ -223,8 +223,15 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id(\\d+)", async (req, res) => {
-  const user = await User.findByPk(req.params.id);
-  res.render("profile", { user });
+  // const user = await User.findByPk(req.params.id);
+  // res.render("profile", { user });
+  const id = req.params.id
+  const bookshelves = await Bookshelf.findAll({
+    include: User,
+    where: {userId: id}
+  })
+  // console.log(bookshelves)
+  res.render("bookshelves", { bookshelves});
 });
 
 router.get("/:id/bookshelves", async (req, res) => {
@@ -243,46 +250,55 @@ router.get("/:id/bookshelves", async (req, res) => {
 })
 
 
-router.get("/:id/bookshelves/1", async (req, res) => {
+router.get("/:userId/bookshelves/:bookshelfId", async (req, res) => {
   // const user = await User.findByPk(req.params.id, {
   //   include: [
   //     {model: Bookshelf, as: 'bookshelf'},
   //     {model: Manga, as: 'manga'}
   //   ]
   // });
-  const id = req.params.id
+  let name='';
+  let pugName = '';
+  const userId = parseInt(req.params.userId, 10)
+  const bookshelfId = parseInt(req.params.bookshelfId,10);
+  if(bookshelfId%3===0){
+    name = "Read"
+    pugName= "read"
+  }else if(bookshelfId%2===0){
+    name = "Currently Reading"
+    pugName = "currentlyReading"
+  }else{
+    name = "Want To Read"
+    pugName = "wantToRead"
+  }
   const bookshelf = await Bookshelf.findAll({
-    include: [
-      { model: User },
-      { model: Manga}
-    ],
-    where: { userId: id, name: "Want To Read" },
+    where: { userId, name },
+    include: [User, Manga],
     // raw: true
   });
   // console.log(bookshelf)
-  // console.log(bookshelf)
-  console.log(bookshelf[0].Mangas)
-  res.render("wantToRead", { bookshelf });
+  res.render(pugName, { bookshelf, userId, bookshelfId });
 })
 
-router.get("/:id/bookshelves/2", async (req, res) => {
-  // const user = await User.findByPk(req.params.id, {
-  //   include: [
-  //     {model: Bookshelf, as: 'bookshelf'},
-  //     {model: Manga, as: 'manga'}
-  //   ]
-  // });
-  const id = req.params.id;
-  const bookshelf = await Bookshelf.findAll({
-    include: [{ model: User }, { model: Manga }],
-    where: { userId: id, name: "Currently Reading" },
-    // raw: true
-  });
-  // console.log(bookshelf)
-  // console.log(bookshelf)
-  console.log(bookshelf[0].Mangas);
-  res.render("currentlyReading", { bookshelf });
-});
+// router.get("/:id/bookshelves/2", async (req, res) => {
+//   // const user = await User.findByPk(req.params.id, {
+//   //   include: [
+//   //     {model: Bookshelf, as: 'bookshelf'},
+//   //     {model: Manga, as: 'manga'}
+//   //   ]
+//   // });
+//   const id = req.params.id;
+//   const bookshelf = await Bookshelf.findAll({
+
+//     where: { userId: id, name: "Currently Reading" },
+//     include: [{ model: User }, { model: Manga }],
+//     // raw: true
+//   });
+//   // console.log(bookshelf)
+//   // console.log(bookshelf)
+//   console.log(bookshelf[0].Mangas);
+//   res.render("currentlyReading", { bookshelf });
+// });
 
 router.get("/:id/bookshelves/3", async (req, res) => {
   // const user = await User.findByPk(req.params.id, {
@@ -302,4 +318,16 @@ router.get("/:id/bookshelves/3", async (req, res) => {
   console.log(bookshelf[0].Mangas);
   res.render("read", { bookshelf });
 });
+
+router.post("/:userId/bookshelves/:bookShelfId/delete", async (req, res)=>{
+  const bookshelfId = req.params.bookShelfId
+  const mangaBookshelf = await MangaBookshelf.findOne({
+    where:{
+      bookshelfId
+    }
+  });
+  if(mangaBookshelf){
+    await mangaBookshelf.destroy();
+  }
+})
 module.exports = router;

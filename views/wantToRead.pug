@@ -2,4 +2,7 @@ html
   head
   body
     each Manga in bookshelf[0].Mangas
-      p= Manga.title
+      div
+        p= Manga.title
+        button(class="delete-wantToRead" id=`${userId}-${bookshelfId}` ) Delete
+    script(src="/js/wantToRead.js" type="module")

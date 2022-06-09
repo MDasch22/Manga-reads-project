@@ -10,7 +10,7 @@ const { loginUser, logoutUser } = require("../auth");
 //WILL ALLOW GUEST USER TO ADD PICTURE OF NEW BOOK CREATED
 
 const router = express.Router();
-const multer = require('multer')
+// const multer = require('multer')
 
 
 const path = require("path")
