@@ -4,8 +4,13 @@ block content
   img(src=`${reviews[0].Manga.coverImg}`, alt="coverImg" style="width:200px")
   body
     h1= reviews[0].Manga.title
-    a(href=`reviews/add` value="post")
-      button(type='button') Write a review
+    if userId !== null
+      a(href=`/mangas/${id}/reviews/add` value="post")
+        button(type='button') Write a review
+    else
+      //- a(href=`/users/login`)
+      a(href=`/mangas/${id}/reviews/users/login`)
+        button(type='button') Write a review
     each review in reviews
       ul(id="reviews")
         label(name="rating") Rating:
@@ -14,6 +19,7 @@ block content
           ul= review.user.firstName
         label(name="comment") comments:
           ul= review.comment
+
 
       //- p(value="Name:")= review.user.firstName
       //- p(value="Rating:")= review.rating

@@ -34,3 +34,7 @@
 //   select.value = e.target.value;
 //   select.dispatchEvent(new Event("change"));
 // });
+
+function changeFunc() {
+  await fetch(`/mangas/${manga.id}/${bookshelf.id}`)
+}
