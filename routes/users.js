@@ -262,6 +262,44 @@ router.get("/:id/bookshelves/1", async (req, res) => {
   // console.log(bookshelf)
   // console.log(bookshelf)
   console.log(bookshelf[0].Mangas)
-  res.render("WantToRead", { bookshelf });
+  res.render("wantToRead", { bookshelf });
 })
+
+router.get("/:id/bookshelves/2", async (req, res) => {
+  // const user = await User.findByPk(req.params.id, {
+  //   include: [
+  //     {model: Bookshelf, as: 'bookshelf'},
+  //     {model: Manga, as: 'manga'}
+  //   ]
+  // });
+  const id = req.params.id;
+  const bookshelf = await Bookshelf.findAll({
+    include: [{ model: User }, { model: Manga }],
+    where: { userId: id, name: "Currently Reading" },
+    // raw: true
+  });
+  // console.log(bookshelf)
+  // console.log(bookshelf)
+  console.log(bookshelf[0].Mangas);
+  res.render("currentlyReading", { bookshelf });
+});
+
+router.get("/:id/bookshelves/3", async (req, res) => {
+  // const user = await User.findByPk(req.params.id, {
+  //   include: [
+  //     {model: Bookshelf, as: 'bookshelf'},
+  //     {model: Manga, as: 'manga'}
+  //   ]
+  // });
+  const id = req.params.id;
+  const bookshelf = await Bookshelf.findAll({
+    include: [{ model: User }, { model: Manga }],
+    where: { userId: id, name: "Read" },
+    // raw: true
+  });
+  // console.log(bookshelf)
+  // console.log(bookshelf)
+  console.log(bookshelf[0].Mangas);
+  res.render("read", { bookshelf });
+});
 module.exports = router;

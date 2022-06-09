@@ -98,13 +98,20 @@ router.get("/:id/reviews", async (req, res) => {
   });
 
 
-  if(reviews) {
-    res.render('reviews', { reviews, manga})
-  } else {
-    reviews = null
-    res.render('reviews', {reviews, manga})
-  }
+  // if(reviews) {
+  //   res.render('reviews', { reviews, manga, id})
+  // } else {
+  //   reviews = null
+  //   res.render('reviews', {reviews, manga, id})
+  // }
 
+  if (req.session.auth) {
+    const { userId } = req.session.auth;
+    res.render("reviews", { reviews, userId, id });
+  } else {
+    const userId = null;
+    res.render("reviews", { reviews, userId, id });
+  }
 })
 
 router.get("/:id/reviews/add", csrfProtection, async(req, res) =>  {

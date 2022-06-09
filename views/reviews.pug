@@ -7,6 +7,14 @@ block content
     if userId !== null
       a(href=`/mangas/${id}/reviews/add` value="post")
         button(type='button') Write a review
+      ul(id="reviews")
+        each review in reviews
+          label(name="rating") Rating:
+            li= review.rating
+          label(name="name") Name:
+            li= review.user.firstName
+          label(name="comment") comments:
+            li= review.comment
     else
       //- a(href=`/users/login`)
       a(href=`/mangas/${id}/reviews/users/login`)
@@ -19,6 +27,3 @@ block content
             li= review.user.firstName
           label(name="comment") comments:
             li= review.comment
-
-
-
