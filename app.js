@@ -13,6 +13,7 @@ const db = require("./db/models");
 //ROUTERS
 const usersRouter = require('./routes/users');
 const mangaRouter = require('./routes/mangas');
+const guestRouter = require('./routes/guest')
 const { restoreUser } = require('./auth');
 
 //CREATING APP OBJECT
@@ -42,6 +43,7 @@ app.use(restoreUser);
 //ROUTER USE
 app.use('/users', usersRouter);
 app.use('/mangas', mangaRouter);
+app.use("/guest", guestRouter)
 
 
 
