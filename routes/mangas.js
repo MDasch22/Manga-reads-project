@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const { csrfProtection, asyncHandler } = require('./utils');
 
 //WILL ALLOW GUEST USER TO ADD PICTURE OF NEW BOOK CREATED
-const multer = require('multer')
+// const multer = require('multer')
 const path = require("path")
 
 // userAuth
@@ -40,6 +40,30 @@ router.get("/:mangaId", async(req,res) => {
 router.post("/:mangaId/:bookshelfId", async(req,res) => {
   const bookshelfId = req.params.bookshelfId
   const mangaId = req.params.mangaId
+  const { userId } = req.session.auth;
+  const bookShelves = [];
+  for(let i=bookshelfId-2; i<bookshelfId+2; i++){
+    const bookShelf = await db.Bookshelf.findOne({
+      where: {
+        id: i
+      }
+    })
+    if(bookShelf&&userId === bookShelf.userId){
+      bookShelves.push(bookShelf.id)
+    }
+  }
+
+  const mangaBookShelves = await db.MangaBookshelf.findAll({
+    where:{
+      bookshelfId: bookShelves,
+      mangaId
+    }
+  })
+  if(mangaBookShelves){
+    for(let i=0; i<mangaBookShelves.length; i++){
+      await mangaBookShelves[i].destroy();
+    }
+  }
 
   //create new insert in our mangabookshelves table
   const newshelf = await db.MangaBookshelf.build({
