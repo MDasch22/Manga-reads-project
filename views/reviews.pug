@@ -1,6 +1,7 @@
-extend home.pug
+extends layout.pug
 
 block content
+
   body
     h1= reviews[0].Manga.title
     if userId !== null

@@ -16,7 +16,8 @@ body{
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin: 50px 0;
+  margin-top: 5px;
+  /* margin: 50px 0; */
 }
 .content{
   width: 20%;
@@ -52,13 +53,14 @@ body{
   margin-left: 10px;
   margin-right: 10px;
 }
-a{
+.a{
   text-decoration: none;
   color: black;
 }
 .mangasTitle{
-  margin-top: 10px;
-  margin-left: 10px;
+  font-size: 12px;
+  margin-top: 60px;
+  margin-left: 50px;
 }
 @media(max-width:800px){
   .mangaCardTitle{ font-size: 9px;}

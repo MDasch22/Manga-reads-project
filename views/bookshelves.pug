@@ -1,10 +1,12 @@
-html
-  head
-  body
-    h3= `${bookshelves[0].User.firstName}'s Bookshelves`
-    a(href= `/users/${bookshelves[0].User.id}/bookshelves/1`) Want To Read
-    div
-    a(href= `/users/${bookshelves[0].User.id}/bookshelves/2`) Currently Reading
-    div
-    a(href= `/users/${bookshelves[0].User.id}/bookshelves/3`) Read
-    div
+extends layout.pug
+
+include user-form.pug
+
+block content
+  h3= `${bookshelves[0].User.firstName}'s Bookshelves`
+  a(href= `/users/${bookshelves[0].User.id}/bookshelves/1`) Want To Read
+  div
+  a(href= `/users/${bookshelves[0].User.id}/bookshelves/2`) Currently Reading
+  div
+  a(href= `/users/${bookshelves[0].User.id}/bookshelves/3`) Read
+  div
