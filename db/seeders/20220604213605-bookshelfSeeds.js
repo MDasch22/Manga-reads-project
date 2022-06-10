@@ -29,6 +29,24 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          userId: "3",
+          name: "Want To Read",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          userId: "3",
+          name: "Currently Reading",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          userId: "3",
+          name: "Read",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
