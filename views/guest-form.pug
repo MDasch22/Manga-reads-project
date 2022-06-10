@@ -1,4 +1,6 @@
-extend home.pug
+extends layout.pug
+
+include user-form.pug
 
 block content
   form(action="/guest" method="post")

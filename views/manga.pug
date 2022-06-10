@@ -1,27 +1,27 @@
-html
-  head
-  body
-    h2= `${manga.title}`
-    div
-    h3= `${manga.author}`
-    div
-    p= `${manga.description}`
-    div
-    p= `${manga.genre}`
-    div
-    p= `${manga.releaseDate}`
-    div
+extends layout.pug
 
-    if userId !== null
-      select(name="bsSelector" id=`${manga.id}` class="book-shelf")
-        option(value="") Select One
-        each bookshelf in bookshelves
-          option(value=`${bookshelf.id}`) #{bookshelf.name}
-      div
-      a(href= `/mangas/${manga.id}/reviews`)
-        button(type='button') View all reviews
-    else
-      div
-      a(href= `/mangas/${manga.id}/reviews`)
-        button(type='button') View all reviews
-    script(src="/js/index.js" type="module")
+include user-form.pug
+
+block content
+  //- div(class="manga-page-image-container")
+  img(src=`${manga.coverImg}` class="manga-page-image")
+  h2= `${manga.title}`
+  div(class="manga-page-details")
+    h3= `${manga.author}`
+    p= `${manga.description}`
+    p= `${manga.genre}`
+    p= `${manga.releaseDate}`
+
+  if userId !== null
+    select(name="bsSelector" id=`${manga.id}` class="book-shelf")
+      option(value="") Select One
+      each bookshelf in bookshelves
+        option(value=`${bookshelf.id}`) #{bookshelf.name}
+    div
+    a(href= `/mangas/${manga.id}/reviews`)
+      button(type='button') View all reviews
+  else
+    div
+    a(href= `/mangas/${manga.id}/reviews`)
+      button(type='button') View all reviews
+  script(src="/js/index.js" type="module")

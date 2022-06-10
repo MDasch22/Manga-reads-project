@@ -31,3 +31,14 @@
 .indivCard {
   grid-area: card;
 }
+.manga-page-image-container{
+  align-content: center;
+  margin: 50px
+}
+.manga-page-image{
+  height: 300px;
+  width: 200px;
+}
+.manga-page-details{
+  background-color: aliceblue;
+}

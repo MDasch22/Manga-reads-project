@@ -1,5 +1,6 @@
-html
-  head
-  body
-    each Manga in bookshelf[0].Mangas
-      p= Manga.title
+extends layout.pug
+include user-form.pug
+
+block content
+  each Manga in bookshelf[0].Mangas
+    p= Manga.title
