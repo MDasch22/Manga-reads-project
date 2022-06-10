@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "per-env",
-    "start:development": "nodemon -r dotenv/config ./bin/www",
-    "start:production": "npm run"
+    "start:development": "nodemon -r dotenv/config ./bin/www"
   },
   "keywords": [],
   "author": "",
