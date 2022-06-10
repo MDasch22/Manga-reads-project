@@ -20,16 +20,17 @@ const cookieParser = require("cookie-parser")
 
 // requireAuth
 const { requireAuth } = require('../auth');
+const { parse } = require("path");
 // requireAuth
 
 // router.use(cookieParser);
 
-router.get("/", async(req,res) => {
+router.get("/", async (req, res) => {
   const mangas = await db.Manga.findAll();
-  res.render('mangas', {mangas});
+  res.render('mangas', { mangas });
 })
 
-router.get("/:mangaId", async(req,res) => {
+router.get("/:mangaId", async (req, res) => {
   const mangaId = req.params.mangaId
   const manga = await db.Manga.findByPk(mangaId);
   //need bookshleves here
@@ -38,41 +39,41 @@ router.get("/:mangaId", async(req,res) => {
   if (req.session.auth) {
     const { userId } = req.session.auth;
     const bookshelves = await db.Bookshelf.findAll({
-      where: {userId}
+      where: { userId }
     })
     res.render("manga", { manga, bookshelves, userId });
   } else {
     const userId = null
-    res.render("manga", { manga, userId});
+    res.render("manga", { manga, userId });
   }
 })
 
 
 
-router.post("/:mangaId/:bookshelfId", async(req,res) => {
+router.post("/:mangaId/:bookshelfId", async (req, res) => {
   const bookshelfId = req.params.bookshelfId
   const mangaId = req.params.mangaId
   const { userId } = req.session.auth;
   const bookShelves = [];
-  for(let i=bookshelfId-2; i<bookshelfId+2; i++){
+  for (let i = bookshelfId - 2; i < bookshelfId + 2; i++) {
     const bookShelf = await db.Bookshelf.findOne({
       where: {
         id: i
       }
     })
-    if(bookShelf&&userId === bookShelf.userId){
+    if (bookShelf && userId === bookShelf.userId) {
       bookShelves.push(bookShelf.id)
     }
   }
 
   const mangaBookShelves = await db.MangaBookshelf.findAll({
-    where:{
+    where: {
       bookshelfId: bookShelves,
       mangaId
     }
   })
-  if(mangaBookShelves){
-    for(let i=0; i<mangaBookShelves.length; i++){
+  if (mangaBookShelves) {
+    for (let i = 0; i < mangaBookShelves.length; i++) {
       await mangaBookShelves[i].destroy();
     }
   }
@@ -114,7 +115,7 @@ router.get("/:id/reviews", async (req, res) => {
   }
 })
 
-router.get("/:id/reviews/add", csrfProtection, async(req, res) =>  {
+router.get("/:id/reviews/add", csrfProtection, async (req, res) => {
   const id = req.params.id
   const manga = await db.Manga.findByPk(id)
   res.render('add-review', {
@@ -126,7 +127,7 @@ router.get("/:id/reviews/add", csrfProtection, async(req, res) =>  {
 
 const reviewValidators = [
   check('rating')
-    .exists({checkFalsy:true})
+    .exists({ checkFalsy: true })
     .withMessage('Please provide a rating between 1-5')
 ]
 
@@ -169,9 +170,9 @@ router.post("/:id/reviews/add", requireAuth, csrfProtection, reviewValidators,
 );
 
 router.get("/:mangaId/reviews/edit/:reviewId", csrfProtection,
-  asyncHandler(async(req, res) => {
+  asyncHandler(async (req, res) => {
     // const reviewId = parseInt(req.params.reviewId, 10);
-    const  mangaId = parseInt(req.params.mangaId, 10);
+    const mangaId = parseInt(req.params.mangaId, 10);
     const manga = await db.Manga.findByPk(mangaId)
 
     const reviewId = parseInt(req.params.reviewId, 10);
@@ -196,7 +197,7 @@ router.post('/:mangaId/reviews/edit/:reviewId', csrfProtection, reviewValidators
     const editReviewUpdate = await db.Review.findByPk(reviewId);
 
     const { rating, comment } = req.body;
-    const review = {rating, comment}
+    const review = { rating, comment }
 
     const validatorErrors = validationResult(req);
 
@@ -217,6 +218,35 @@ router.post('/:mangaId/reviews/edit/:reviewId', csrfProtection, reviewValidators
     }
   }));
 
+// router.get('/:mangaId/reviews/:reviewId/delete', //mangaid/delete/id
+//   asyncHandler(async (req, res) => {
+//     const deleteId = parseInt(req.params.deleteId, 10);
+//     const deleteReview = await db.Review.findByPk(deleteId);
+
+//     res.render('delete-review', {
+//       title: 'Delete Review',
+//       deleteReview,
+//       csrfToken: req.csrfToken(),
+//     })
+//   }));
+
+router.post('/:mangaId/reviews/:reviewId/delete', //mangaid/delete/id
+  async (req, res) => {
+    const mangaId = parseInt(req.params.mangaId, 10);
+    const reviewId = parseInt(req.params.reviewId, 10);
+    const reviews = await db.Review.findOne({
+      where: {
+        id: reviewId,
+        mangaId
+      }
+    });
+
+    await reviews.destroy();
+    res.json({
+      message: "deleted"
+    })
+    // res.redirect(`/mangas`); //may be wrong path
+  });
 
 
 
@@ -243,49 +273,49 @@ const loginValidators = [
 
 
 // userAuth REVIEW
-router.post( "/:id/reviews/users/login", csrfProtection, loginValidators, asyncHandler(async (req, res) => {
-    const id = req.params.id
-    const { email, password } = req.body;
+router.post("/:id/reviews/users/login", csrfProtection, loginValidators, asyncHandler(async (req, res) => {
+  const id = req.params.id
+  const { email, password } = req.body;
 
-    let errors = [];
-    const validatorErrors = validationResult(req);
+  let errors = [];
+  const validatorErrors = validationResult(req);
 
-    if (validatorErrors.isEmpty()) {
-      // Attempt to get the user by their email address.
-      const user = await db.User.findOne({ where: { email } });
+  if (validatorErrors.isEmpty()) {
+    // Attempt to get the user by their email address.
+    const user = await db.User.findOne({ where: { email } });
 
-      console.log(user);
-      if (user) {
-        // If the user exists then compare their password
-        // to the provided password.
-        console.log("before password match");
-        const passwordMatch = await bcrypt.compare(
-          password,
-          user.password.toString()
-        );
-        console.log(passwordMatch);
-        if (passwordMatch) {
-          // If the password hashes match, then login the user
-          // and redirect them to the default route.
-          // TODO Login the user.
-          console.log("matched");
-          loginUser(req, res, user);
-          return res.redirect(`/mangas/${id}/reviews/add`);
-        }
+    console.log(user);
+    if (user) {
+      // If the user exists then compare their password
+      // to the provided password.
+      console.log("before password match");
+      const passwordMatch = await bcrypt.compare(
+        password,
+        user.password.toString()
+      );
+      console.log(passwordMatch);
+      if (passwordMatch) {
+        // If the password hashes match, then login the user
+        // and redirect them to the default route.
+        // TODO Login the user.
+        console.log("matched");
+        loginUser(req, res, user);
+        return res.redirect(`/mangas/${id}/reviews/add`);
       }
-      // Otherwise display an error message to the user.
-      errors.push("Login failed for the provided email address and password");
-    } else {
-      errors = validatorErrors.array().map((error) => error.msg);
     }
+    // Otherwise display an error message to the user.
+    errors.push("Login failed for the provided email address and password");
+  } else {
+    errors = validatorErrors.array().map((error) => error.msg);
+  }
 
-    res.render("review-user-login", {
-      title: "Login",
-      email,
-      errors,
-      csrfToken: req.csrfToken(),
-    });
-  })
+  res.render("review-user-login", {
+    title: "Login",
+    email,
+    errors,
+    csrfToken: req.csrfToken(),
+  });
+})
 );
 //END//
 
