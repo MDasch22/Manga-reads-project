@@ -11,6 +11,8 @@ html
     link(rel="stylesheet" href="/css/header.css")
     link(rel="stylesheet" href="/css/mangas.css")
     link(rel="stylesheet" href="/css/add-review_md.css")
+    link(rel="stylesheet" href="/css/general.css")
+
     script(src="https://kit.fontawesome.com/dd433fc91b.js" crossorigin="anonymous")
   body
     header
@@ -19,7 +21,7 @@ html
       nav
         ul(class="nav__links")
           if locals.authenticated
-            //- li
+            //- li 
             //-   span(class='navbar-text px-4') Welcome #{user.firstName}!
             li
               a(href=`/users/${user.id}` class="navlinks") MyProfile
