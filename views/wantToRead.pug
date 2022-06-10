@@ -1,8 +1,10 @@
-html
-  head
-  body
-    each Manga in bookshelf[0].Mangas
-      div
-        p(id=`${userId}-${bookshelfId}`)= Manga.title
-          button(class=`delete-wantToRead` id=`${userId}-${bookshelfId}` ) Delete
-    script(src="/js/wantToRead.js" type="module")
+extends layout.pug
+include user-form.pug
+
+block content
+  each Manga in bookshelf[0].Mangas
+    div
+      p(id=`${userId}-${bookshelfId}`)= Manga.title
+        button(class=`delete-wantToRead` id=`${userId}-${bookshelfId}` ) Delete
+  script(src="/js/wantToRead.js" type="module")
+

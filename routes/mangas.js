@@ -168,6 +168,58 @@ router.post("/:id/reviews/add", requireAuth, csrfProtection, reviewValidators,
   })
 );
 
+router.get("/:mangaId/reviews/edit/:reviewId", csrfProtection,
+  asyncHandler(async(req, res) => {
+    // const reviewId = parseInt(req.params.reviewId, 10);
+    const  mangaId = parseInt(req.params.mangaId, 10);
+    const manga = await db.Manga.findByPk(mangaId)
+
+    const reviewId = parseInt(req.params.reviewId, 10);
+    const review = await db.Review.findByPk(reviewId);
+
+    res.render("edit-review", {
+      title: `Edit your review for ${manga.title} `,
+      review,
+      mangaId,
+      manga,
+      csrfToken: req.csrfToken(),
+    })
+  })
+);
+
+router.post('/:mangaId/reviews/edit/:reviewId', csrfProtection, reviewValidators,//mangaid/edit/id
+  asyncHandler(async (req, res) => {
+    const mangaId = parseInt(req.params.mangaId, 10);
+    const manga = await db.Manga.findByPk(mangaId);
+
+    const reviewId = parseInt(req.params.reviewId, 10);
+    const editReviewUpdate = await db.Review.findByPk(reviewId);
+
+    const { rating, comment } = req.body;
+    const review = {rating, comment}
+
+    const validatorErrors = validationResult(req);
+
+    if (validatorErrors.isEmpty()) {
+      await editReviewUpdate.update(review);
+      // editReviewUpdate.rating = rating
+      // editReviewUpdate.comment = comment
+      res.redirect(`/mangas/${mangaId}/reviews`);
+    } else {
+      const errors = validatorErrors.array().map((error) => error.msg);
+      res.render('edit-review', {
+        rating,
+        comment,
+        manga,
+        errors,
+        csrfToken: req.csrfToken(),
+      });
+    }
+  }));
+
+
+
+
 //START//
 router.get("/:id/reviews/users/login", csrfProtection, (req, res) => {
   const id = req.params.id;
