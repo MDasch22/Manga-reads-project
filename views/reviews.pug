@@ -13,13 +13,14 @@ block content
           th(name="comments") Comments:
       tbody
         each review in reviews
-          tr
+          tr(id=`${review.id}-${review.mangaId}`)
             td= review.rating
             td= review.user.firstName
             td= review.comment
             if review.userId == userId
               td
                 a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
+                button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
   else
     //- a(href=`/users/login`)
     a(href=`/mangas/${id}/reviews/users/login` value="post")
@@ -36,6 +37,7 @@ block content
             td= review.rating
             td= review.user.firstName
             td= review.comment
+  script(src='/js/delete.js')
 
 
 
@@ -79,4 +81,3 @@ block content
 //-             td= review.rating
 //-             td= review.user.firstName
 //-             td= review.comment
-
