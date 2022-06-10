@@ -1,0 +1,23 @@
+extends home.pug
+
+include user-form.pug
+
+block content
+  +validationErrorSummary(error)
+  form(action=`/mangas/${mangaId}/reviews/edit/${review.id}` method="post")
+      div(class="rating")
+        label(for='rating-edit') Previous rating:
+        label(for='rating')= review.rating
+        input(type="number" id="rating" name="rating")
+        //- label(id="star5" title='text' style="opacity: 50%") ⭐
+        //- label(id="star4" title='text' style="opacity: 50%") ⭐
+        //- label(id="star3" title='text' style="opacity: 50%") ⭐
+        //- label(id="star2" title='text' style="opacity: 50%") ⭐
+        //- label(id="star1" title='text' style="opacity: 50%") ⭐
+        input(type='hidden' name='_csrf' value=csrfToken)
+        div
+        label(for='review') What did you think?
+        div
+        textarea(id='comment' name='comment')= review.comment
+
+      button(type="submit") Re-post review
