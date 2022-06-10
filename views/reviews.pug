@@ -5,38 +5,42 @@ block content
   if userId !== null
     a(href=`/mangas/${id}/reviews/add` value="post")
       button(type='button') Write a review
-    table(class="reviews-table")
-      thead
-        tr
-          th(name="rating") Rating:
-          th(name="firstName") Name:
-          th(name="comments") Comments:
-      tbody
-        each review in reviews
-          tr(id=`${review.id}-${review.mangaId}`)
-            td= review.rating
-            td= review.user.firstName
-            td= review.comment
+  else
+    a(href=`/mangas/${id}/reviews/users/login` value="post")
+      button(type='button') Write a review
+  table(class="reviews-table")
+    thead
+      tr(class="reviews-table-headers")
+        th(name="rating") Rating:
+        th(name="firstName") Name:
+        th(name="comments") Comments:
+    tbody
+      each review in reviews
+        tr(id=`${review.id}-${review.mangaId}`)
+          td= review.rating
+          td= review.user.firstName
+          td= review.comment
+          if userId !== null
             if review.userId == userId
               td
                 a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
                 button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
-  else
-    //- a(href=`/users/login`)
-    a(href=`/mangas/${id}/reviews/users/login` value="post")
-      button(type='button') Write a review
-    table(id="reviews")
-      thead(class="tableHeader")
-        tr
-          th(name="rating") Rating:
-          th(name="firstName") Name:
-          th(name="comments") Comments:
-      tbody
-        each review in reviews
-          tr
-            td= review.rating
-            td= review.user.firstName
-            td= review.comment
+  //- else
+  //-   //- a(href=`/users/login`)
+  //-   a(href=`/mangas/${id}/reviews/users/login` value="post")
+  //-     button(type='button') Write a review
+  //-   table(class="reviews-table")
+  //-     thead(class="tableHeader")
+  //-       tr
+  //-         th(name="rating") Rating:
+  //-         th(name="firstName") Name:
+  //-         th(name="comments") Comments:
+  //-     tbody
+  //-       each review in reviews
+  //-         tr
+  //-           td= review.rating
+  //-           td= review.user.firstName
+  //-           td= review.comment
   script(src='/js/delete.js')
 
 

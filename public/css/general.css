@@ -43,8 +43,17 @@
   background-color: aliceblue;
 }
 td{
-  padding: 5px;
+  padding: 9px;
+}
+th{
+  padding: 0;
 }
 .reviews-table{
-  border-collapse: collapse;
+  /* border-collapse: collapse;
+  margin: 25px; */
+  background-color: #e5e5e5;
+  border-radius: 10px;
+}
+.reviews-table-headers{
+  /* background-color: rgba(162, 163, 255, 0.8); */
 }
