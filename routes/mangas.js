@@ -161,7 +161,7 @@ router.post("/:id/reviews/add", requireAuth, csrfProtection, reviewValidators,
         manga,
         id,
         errors,
-        // csrfToken: req.csrfToken(),
+        csrfToken: req.csrfToken(),
       });
     }
     // next()
@@ -181,6 +181,7 @@ router.get("/:mangaId/reviews/edit/:reviewId", csrfProtection,
     res.render("edit-review", {
       title: `Edit your review for ${manga.title} `,
       review,
+      reviewId,
       mangaId,
       manga,
       csrfToken: req.csrfToken(),
@@ -210,7 +211,10 @@ router.post('/:mangaId/reviews/edit/:reviewId', csrfProtection, reviewValidators
       const errors = validatorErrors.array().map((error) => error.msg);
       res.render('edit-review', {
         rating,
+        reviewId,
+        review,
         comment,
+        mangaId,
         manga,
         errors,
         csrfToken: req.csrfToken(),

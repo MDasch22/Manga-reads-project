@@ -1,42 +1,82 @@
 extends layout.pug
 
 block content
+  h1= reviews[0].Manga.title
+  if userId !== null
+    a(href=`/mangas/${id}/reviews/add` value="post")
+      button(type='button') Write a review
+    table(class="reviews-table")
+      thead
+        tr
+          th(name="rating") Rating:
+          th(name="firstName") Name:
+          th(name="comments") Comments:
+      tbody
+        each review in reviews
+          tr
+            td= review.rating
+            td= review.user.firstName
+            td= review.comment
+            if review.userId == userId
+              td
+                a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
+  else
+    //- a(href=`/users/login`)
+    a(href=`/mangas/${id}/reviews/users/login` value="post")
+      button(type='button') Write a review
+    table(id="reviews")
+      thead(class="tableHeader")
+        tr
+          th(name="rating") Rating:
+          th(name="firstName") Name:
+          th(name="comments") Comments:
+      tbody
+        each review in reviews
+          tr
+            td= review.rating
+            td= review.user.firstName
+            td= review.comment
 
-  body
-    h1= reviews[0].Manga.title
-    if userId !== null
-      a(href=`/mangas/${id}/reviews/add` value="post")
-        button(type='button') Write a review
-      table(id="reviews")
-        thead(class="tableHeader")
-          tr
-            th(name="rating") Rating:
-            th(name="firstName") Name:
-            th(name="comments") Comments:
-        tbody
-          each review in reviews
-            tr(id=`${review.id}-${review.mangaId}`)
-              td= review.rating
-              td= review.user.firstName
-              td= review.comment
-              if review.userId == userId
-                td
-                  a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
-                  button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
-    else
-      //- a(href=`/users/login`)
-      a(href=`/mangas/${id}/reviews/add` value="post")
-        button(type='button') Write a review
-      table(id="reviews")
-        thead(class="tableHeader")
-          tr
-            th(name="rating" scope='col') Rating:
-            th(name="firstName" scope='col') Name:
-            th(name="comments" scope='col') Comments:
-        tbody
-          each review in reviews
-            tr
-              td= review.rating
-              td= review.user.firstName
-              td= review.comment
-    script(src='/js/delete.js')
+
+
+
+//- WORKING
+//- extends layout.pug
+
+//- block content
+//-   h1= reviews[0].Manga.title
+//-   if userId !== null
+//-     a(href=`/mangas/${id}/reviews/add` value="post")
+//-       button(type='button') Write a review
+//-     table(id="reviews")
+//-       thead(class="tableHeader")
+//-         tr
+//-           th(name="rating") Rating:
+//-           th(name="firstName") Name:
+//-           th(name="comments") Comments:
+//-       tbody
+//-         each review in reviews
+//-           tr
+//-             td= review.rating
+//-             td= review.user.firstName
+//-             td= review.comment
+//-             if review.userId == userId
+//-               td
+//-                 a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
+//-   else
+//-     //- a(href=`/users/login`)
+//-     a(href=`/mangas/${id}/reviews/add` value="post")
+//-       button(type='button') Write a review
+//-     table(id="reviews")
+//-       thead(class="tableHeader")
+//-         tr
+//-           th(name="rating" scope='col') Rating:
+//-           th(name="firstName" scope='col') Name:
+//-           th(name="comments" scope='col') Comments:
+//-       tbody
+//-         each review in reviews
+//-           tr
+//-             td= review.rating
+//-             td= review.user.firstName
+//-             td= review.comment
+

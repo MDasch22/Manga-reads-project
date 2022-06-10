@@ -42,3 +42,9 @@
 .manga-page-details{
   background-color: aliceblue;
 }
+td{
+  padding: 5px;
+}
+.reviews-table{
+  border-collapse: collapse;
+}
