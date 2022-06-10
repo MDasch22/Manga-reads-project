@@ -4,5 +4,5 @@ html
     each Manga in bookshelf[0].Mangas
       div
         p= Manga.title
-        button(class="delete-currentlyReading") Delete
-    script(src="" type="module")
+        button(class="delete-currentlyReading" id=`${userId}-${bookshelfId}`) Delete
+    script(src="/js/currentlyReading.js" type="module")

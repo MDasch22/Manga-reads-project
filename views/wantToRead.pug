@@ -4,5 +4,5 @@ html
     each Manga in bookshelf[0].Mangas
       div
         p= Manga.title
-        button(class="delete-wantToRead" id=`${userId}-${bookshelfId}` ) Delete
+        button(class=`delete-wantToRead` id=`${userId}-${bookshelfId}-${bookshelf[0].Mangas.indexOf(Manga)}` ) Delete
     script(src="/js/wantToRead.js" type="module")

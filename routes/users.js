@@ -230,24 +230,24 @@ router.get("/:id(\\d+)", async (req, res) => {
     include: User,
     where: {userId: id}
   })
-  // console.log(bookshelves)
+  console.log(bookshelves)
   res.render("bookshelves", { bookshelves});
 });
 
-router.get("/:id/bookshelves", async (req, res) => {
-  const id = req.params.id
-  const bookshelves = await Bookshelf.findAll({
-    include: [{
-      model: User
-    }],
-    where: {userId: id},
-  })
-  // console.log(bookshelves)
-  res.render("bookshelves", { bookshelves });
-  //this will give us an arr of all bookshelves from this user
-  //booksehlves will follow our three categories
-  //booshelves[0].User should give us our user
-})
+// router.get("/:id/bookshelves", async (req, res) => {
+//   const id = req.params.id
+//   const bookshelves = await Bookshelf.findAll({
+//     include: [{
+//       model: User
+//     }],
+//     where: {userId: id},
+//   })
+//   // console.log(bookshelves)
+//   res.render("bookshelves", { bookshelves });
+//   //this will give us an arr of all bookshelves from this user
+//   //booksehlves will follow our three categories
+//   //booshelves[0].User should give us our user
+// })
 
 
 router.get("/:userId/bookshelves/:bookshelfId", async (req, res) => {
@@ -261,15 +261,15 @@ router.get("/:userId/bookshelves/:bookshelfId", async (req, res) => {
   let pugName = '';
   const userId = parseInt(req.params.userId, 10)
   const bookshelfId = parseInt(req.params.bookshelfId,10);
-  if(bookshelfId%3===0){
-    name = "Read"
-    pugName= "read"
-  }else if(bookshelfId%2===0){
-    name = "Currently Reading"
-    pugName = "currentlyReading"
-  }else{
+  if(bookshelfId%3===1){
     name = "Want To Read"
     pugName = "wantToRead"
+  }else if(bookshelfId%3===2){
+    name = "Currently Reading"
+    pugName = "currentlyReading"
+  }else if(bookshelfId%3===0){
+    name = "Read"
+    pugName= "read"
   }
   const bookshelf = await Bookshelf.findAll({
     where: { userId, name },
@@ -315,7 +315,7 @@ router.get("/:id/bookshelves/3", async (req, res) => {
   });
   // console.log(bookshelf)
   // console.log(bookshelf)
-  console.log(bookshelf[0].Mangas);
+  // console.log(bookshelf[0].Mangas);
   res.render("read", { bookshelf });
 });
 
@@ -326,8 +326,12 @@ router.post("/:userId/bookshelves/:bookShelfId/delete", async (req, res)=>{
       bookshelfId
     }
   });
+  // console.log(mangaBookshelf)
   if(mangaBookshelf){
     await mangaBookshelf.destroy();
   }
+  res.json({
+    message: "Success!"
+  })
 })
 module.exports = router;
