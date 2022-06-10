@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded", async (event)=>{
 
-    const bookShelves = document.querySelector(".delete-wantToRead")
+    const bookShelves = document.querySelectorAll(".delete-wantToRead")
 
 
     for(let i=0; i<bookShelves.length; i++){

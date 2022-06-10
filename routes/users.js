@@ -230,8 +230,8 @@ router.get("/:id(\\d+)", async (req, res) => {
     include: User,
     where: {userId: id}
   })
-  console.log(bookshelves)
-  res.render("bookshelves", { bookshelves});
+
+  res.render("profile", { bookshelves});
 });
 
 // router.get("/:id/bookshelves", async (req, res) => {
@@ -300,24 +300,24 @@ router.get("/:userId/bookshelves/:bookshelfId", async (req, res) => {
 //   res.render("currentlyReading", { bookshelf });
 // });
 
-router.get("/:id/bookshelves/3", async (req, res) => {
-  // const user = await User.findByPk(req.params.id, {
-  //   include: [
-  //     {model: Bookshelf, as: 'bookshelf'},
-  //     {model: Manga, as: 'manga'}
-  //   ]
-  // });
-  const id = req.params.id;
-  const bookshelf = await Bookshelf.findAll({
-    include: [{ model: User }, { model: Manga }],
-    where: { userId: id, name: "Read" },
-    // raw: true
-  });
-  // console.log(bookshelf)
-  // console.log(bookshelf)
-  // console.log(bookshelf[0].Mangas);
-  res.render("read", { bookshelf });
-});
+// router.get("/:id/bookshelves/3", async (req, res) => {
+//   // const user = await User.findByPk(req.params.id, {
+//   //   include: [
+//   //     {model: Bookshelf, as: 'bookshelf'},
+//   //     {model: Manga, as: 'manga'}
+//   //   ]
+//   // });
+//   const id = req.params.id;
+//   const bookshelf = await Bookshelf.findAll({
+//     include: [{ model: User }, { model: Manga }],
+//     where: { userId: id, name: "Read" },
+//     // raw: true
+//   });
+//   // console.log(bookshelf)
+//   // console.log(bookshelf)
+//   // console.log(bookshelf[0].Mangas);
+//   res.render("read", { bookshelf });
+// });
 
 router.post("/:userId/bookshelves/:bookShelfId/delete", async (req, res)=>{
   const bookshelfId = req.params.bookShelfId
