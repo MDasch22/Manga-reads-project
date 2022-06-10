@@ -3,6 +3,6 @@ html
   body
     each Manga in bookshelf[0].Mangas
       div
-        p= Manga.title
-        button(class="delete-read" id=`${userId}-${bookshelfId}`) Delete
+        p(id=`${userId}-${bookshelfId}`)= Manga.title
+          button(class="delete-read" id=`${userId}-${bookshelfId}`) Delete
     script(src="/js/read.js" type="module")
