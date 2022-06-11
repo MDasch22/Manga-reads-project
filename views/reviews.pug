@@ -4,22 +4,22 @@ block content
   h1= reviews[0].Manga.title
   if userId !== null
     a(href=`/mangas/${id}/reviews/add` value="post")
-      button(type='button') Write a review
+      button(type='button' class='purpBtn') Write a review
   else
     a(href=`/mangas/${id}/reviews/users/login` value="post")
-      button(type='button') Write a review
+      button(type='button' class='purpBtn') Write a review
   table(class="reviews-table")
     thead
       tr(class="reviews-table-headers")
-        th(name="rating") Rating:
-        th(name="firstName") Name:
-        th(name="comments") Comments:
+        //- th(name="firstName") Name:
+        //- th(name="rating") Rating:
+        //- th(name="comments") Comments:
     tbody
       each review in reviews
         tr(id=`${review.id}-${review.mangaId}`)
-          td= review.rating
-          td= review.user.firstName
-          td= review.comment
+          td(class="user-name")= review.user.firstName
+          td= `${review.rating} / 5`
+          td(class="user-comment")= review.comment
           if userId !== null
             if review.userId == userId
               td

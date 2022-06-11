@@ -5,6 +5,5 @@ block content
   each Manga in bookshelf[0].Mangas
     div
       p(id=`${userId}-${bookshelfId}`)= Manga.title
-        button(class=`delete-wantToRead` id=`${userId}-${bookshelfId}` ) Delete
+        button(class=`delete-wantToRead purpBtn` id=`${userId}-${bookshelfId}` ) Delete
   script(src="/js/wantToRead.js" type="module")
-

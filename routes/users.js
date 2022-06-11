@@ -85,23 +85,23 @@ router.post('/register', csrfProtection, userValidators,
       password,
     } = req.body;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
     const validatorErrors = validationResult(req);
 
     // const allUsers = await User.findAll()
     // const lastUserid = allUsers[allUsers.length-1].id
 
+    const user = User.build({
+      email,
+      firstName,
+      lastName,
+      password
+    });
 
     // console.log(user)
     if (validatorErrors.isEmpty()) {
-      const hashedPassword = await bcrypt.hash(password, 10);
       // user.password = hashedPassword;
-
-      const user = User.build({
-        email,
-        firstName,
-        lastName,
-        password: hashedPassword,
-      });
+      user.password=hashedPassword
       await user.save();
       loginUser(req, res, user);
 
