@@ -49,11 +49,25 @@ th{
   padding: 0;
 }
 .reviews-table{
-  /* border-collapse: collapse;
-  margin: 25px; */
+  border-collapse: collapse;
+  margin: 25px;
   background-color: #e5e5e5;
   border-radius: 10px;
 }
-.reviews-table-headers{
-  /* background-color: rgba(162, 163, 255, 0.8); */
+.user-name{
+  font-weight: bold;
+}
+.user-comment{
+  margin-bottom: 80px;
+}
+.star-form{
+  background-color: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  line-height: 1;
+}
+output{
+  color: white
 }

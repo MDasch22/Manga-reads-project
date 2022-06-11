@@ -39,14 +39,14 @@ header{
 .nav__links li a:hover{
   color:rgba(162, 163, 255, 0.6)
 }
-button{
+.purpBtn{
   padding:6px 14px;
   background-color: rgba(162, 163, 255, 0.8);
   border-radius: 14px;
   cursor: pointer;
   transition:all 0.3s ease 0s;
 }
-button:hover{
+.purpBtn:hover{
   background-color: rgba(72, 65, 156, 0.8);
   color: white;
 }

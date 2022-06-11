@@ -1,32 +1,41 @@
 extends layout.pug
 
+include user-form.pug
 block content
+  +validationErrorSummary(error)
+
   img(src=`${manga.coverImg}`, alt="coverImg" style="width:200px")
   form(action=`/mangas/${id}/reviews/add` method="post")
+    input(type='hidden' name='_csrf' value=csrfToken)
       //- input(type='text' id='rating' name='rating' required)
-      div(class="rating")
-        if errors
-          ul
-            each error in errors
-              li= error
-
-        label(for='rating') Rating
-        input(type="number" id="rating" name="rating")
-
-        //- input(type="radio" id="star5" name="rate" value="5")
-        label(id="star5" title='text' style="opacity: 50%") ⭐
-        //- input(type="radio" id="star4" name="rate" value="4")
-        label(id="star4" title='text' style="opacity: 50%") ⭐
-        //- input(type="radio" id="star3" name="rate" value="3")
-        label(id="star3" title='text' style="opacity: 50%") ⭐
-        //- input(type="radio" id="star2" name="rate" value="2")
-        label(id="star2" title='text' style="opacity: 50%") ⭐
-        //- input(type="radio" id="star1" name="rate" value="1")
-        label(id="star1" title='text' style="opacity: 50%") ⭐
-        input(type='hidden' name='_csrf' value=csrfToken)
-        div
-        label(for='review') What did you think?
-        div
-        textarea(id='comment' name='comment' placeholder="Enter your review (optional)")
-
-      button(type="submit") Post review
+    div(class="rating")
+      if errors
+        ul
+          each error in errors
+            li= error
+      p Rating
+      div(class="star_rating")
+        button(class="star") &#9734
+        button(class="star") &#9734
+        button(class="star") &#9734
+        button(class="star") &#9734
+        button(class="star") &#9734
+        p(class="current_rating") 0 of 5
+      input(type="text" id="rating" name="rating" value="")
+      label(for='review') What did you think?
+      div
+      textarea(id='comment' name='comment' placeholder="Enter your review (optional)")
+    button(type="submit") Post review
+  script(src="/js/starscript.js" type="module")
+  //-       //- input(type="radio" id="star5" name="rate" value="5")
+  //-       label(id="star5" title='text' style="opacity: 50%") ⭐
+  //-       //- input(type="radio" id="star4" name="rate" value="4")
+  //-       label(id="star4" title='text' style="opacity: 50%") ⭐
+  //-       //- input(type="radio" id="star3" name="rate" value="3")
+  //-       label(id="star3" title='text' style="opacity: 50%") ⭐
+  //-       //- input(type="radio" id="star2" name="rate" value="2")
+  //-       label(id="star2" title='text' style="opacity: 50%") ⭐
+  //-       //- input(type="radio" id="star1" name="rate" value="1")
+  //-       label(id="star1" title='text' style="opacity: 50%") ⭐
+  //-       input(type='hidden' name='_csrf' value=csrfToken)
+  //-       div
