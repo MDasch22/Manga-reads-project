@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", async (event) => {
             header: { "Content-Tpye": "application/json" },
             method: "POST",
         }
-        const response = await fetch(`/mangas/${event.target.id}/${event.target.value}`, option);
+        const response = await fetch(`/mangas/${event.target.id}/bookshelves/${event.target.value}`, option);
         const res = await response.json();
     })
 });

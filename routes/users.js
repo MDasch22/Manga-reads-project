@@ -78,13 +78,14 @@ const userValidators = [
 // userAuth REVIEW
 router.post('/register', csrfProtection, userValidators,
   asyncHandler(async (req, res) => {
-    const {
+    let {
       email,
       firstName,
       lastName,
       password,
     } = req.body;
 
+    email = email.toLowerCase();
     const hashedPassword = await bcrypt.hash(password, 10);
     const validatorErrors = validationResult(req);
 
@@ -106,7 +107,7 @@ router.post('/register', csrfProtection, userValidators,
       loginUser(req, res, user);
 
       const {userId} = req.session.auth
-      console.log("HERE", userId)
+
       const wantToRead = await Bookshelf.build({
         userId,
         name: "Want To Read",
@@ -119,8 +120,6 @@ router.post('/register', csrfProtection, userValidators,
         userId,
         name: "Read",
       });
-
-
 
       await wantToRead.save();
       await currentlyReading.save();
@@ -163,10 +162,12 @@ const loginValidators = [
 // userAuth REVIEW
 router.post('/login', csrfProtection, loginValidators,
   asyncHandler(async (req, res) => {
-    const {
+    let {
       email,
       password,
     } = req.body;
+
+    email = email.toLowerCase();
 
     let errors = [];
     const validatorErrors = validationResult(req);
@@ -175,11 +176,11 @@ router.post('/login', csrfProtection, loginValidators,
       // Attempt to get the user by their email address.
       const user = await User.findOne({ where: { email } });
 
-      console.log(user);
+
       if (user) {
         // If the user exists then compare their password
         // to the provided password.
-        console.log("before password match")
+
         const passwordMatch = await bcrypt.compare(password, user.password.toString());
         console.log(passwordMatch)
         if (passwordMatch) {

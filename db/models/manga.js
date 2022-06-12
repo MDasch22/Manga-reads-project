@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Manga.associate = function(models) {
     // associations can be defined here
-    Manga.hasMany(models.Review, {as: "review", foreignKey: "mangaId"})
+    Manga.hasMany(models.Review, {foreignKey: "mangaId"})
     Manga.belongsToMany(models.Bookshelf, {
       through: "MangaBookshelf",
       foreignKey: "mangaId",

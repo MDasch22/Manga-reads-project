@@ -17,14 +17,11 @@ block content
     tbody
       each review in reviews
         tr(id=`${review.id}-${review.mangaId}`)
-          td(class="user-name")= review.user.firstName
+          td(class="user-name")= review.User.firstName
           td= `${review.rating} / 5`
           td(class="user-comment")= review.comment
-          if userId !== null
-            if review.userId == userId
-              td
-                a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
-                button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
+          td: a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
+            button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
   //- else
   //-   //- a(href=`/users/login`)
   //-   a(href=`/mangas/${id}/reviews/users/login` value="post")

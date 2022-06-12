@@ -10,9 +10,6 @@ const { loginUser, logoutUser } = require("../auth");
 //WILL ALLOW GUEST USER TO ADD PICTURE OF NEW BOOK CREATED
 
 const router = express.Router();
-// const multer = require('multer')
-
-
 const path = require("path")
 const cookieParser = require("cookie-parser")
 
@@ -24,6 +21,20 @@ const { parse } = require("path");
 // requireAuth
 
 // router.use(cookieParser);
+const checkPermissions = (review, currentUser) => {
+  // const reviews = await db.Review.findOne({
+  //   where:{
+  //     mangaId: manga.id,
+  //     userId: currentUser.id
+  //   }
+  // })
+  console.log(review.comment, review.id, currentUser.id)
+  if (review.userId !== currentUser.id) {
+    const err = new Error('You are not authorized to edit!');
+    err.status = 403; // Forbidden
+    throw err;
+  }
+};
 
 router.get("/", async (req, res) => {
   const mangas = await db.Manga.findAll();
@@ -50,7 +61,7 @@ router.get("/:mangaId", async (req, res) => {
 
 
 
-router.post("/:mangaId/:bookshelfId", async (req, res) => {
+router.post("/:mangaId/bookshelves/:bookshelfId", requireAuth, async (req, res) => {
   const bookshelfId = req.params.bookshelfId
   const mangaId = req.params.mangaId
   const { userId } = req.session.auth;
@@ -92,10 +103,7 @@ router.get("/:id/reviews", async (req, res) => {
   const manga = await db.Manga.findByPk(id)
   let reviews = await db.Review.findAll({
     where: { mangaId: id },
-    include: [
-      { model: db.Manga, as: "Manga" },
-      { model: db.User, as: "user" },
-    ],
+    include: [db.Manga, db.User],
   });
 
 
@@ -105,17 +113,17 @@ router.get("/:id/reviews", async (req, res) => {
   //   reviews = null
   //   res.render('reviews', {reviews, manga, id})
   // }
-
-  if (req.session.auth) {
-    const { userId } = req.session.auth;
-    res.render("reviews", { reviews, userId, id });
-  } else {
-    const userId = null;
-    res.render("reviews", { reviews, userId, id });
-  }
+  res.render("reviews", { reviews, id})
+  // if (req.session.auth) {
+  //   const { userId } = req.session.auth;
+  //   res.render();
+  // } else {
+  //   const userId = null;
+  //   res.render("reviews", { reviews, userId, id });
+  // }
 })
 
-router.get("/:id/reviews/add", csrfProtection, async (req, res) => {
+router.get("/:id/reviews/add", requireAuth, csrfProtection, asyncHandler(async (req, res) => {
   const id = req.params.id
   const manga = await db.Manga.findByPk(id)
   res.render('add-review', {
@@ -123,7 +131,7 @@ router.get("/:id/reviews/add", csrfProtection, async (req, res) => {
     id,
     csrfToken: req.csrfToken(),
   })
-});
+}));
 
 const reviewValidators = [
   check('rating')
@@ -169,7 +177,7 @@ router.post("/:id/reviews/add", requireAuth, csrfProtection, reviewValidators,
   })
 );
 
-router.get("/:mangaId/reviews/edit/:reviewId", csrfProtection,
+router.get("/:mangaId/reviews/edit/:reviewId", requireAuth, csrfProtection,
   asyncHandler(async (req, res) => {
     // const reviewId = parseInt(req.params.reviewId, 10);
     const mangaId = parseInt(req.params.mangaId, 10);
@@ -177,6 +185,8 @@ router.get("/:mangaId/reviews/edit/:reviewId", csrfProtection,
 
     const reviewId = parseInt(req.params.reviewId, 10);
     const review = await db.Review.findByPk(reviewId);
+
+    checkPermissions(review, res.locals.user)
 
     res.render("edit-review", {
       title: `Edit your review for ${manga.title} `,
@@ -186,16 +196,17 @@ router.get("/:mangaId/reviews/edit/:reviewId", csrfProtection,
       manga,
       csrfToken: req.csrfToken(),
     })
-  })
-);
+  }));
 
-router.post('/:mangaId/reviews/edit/:reviewId', csrfProtection, reviewValidators,//mangaid/edit/id
+router.post('/:mangaId/reviews/edit/:reviewId', requireAuth, csrfProtection, reviewValidators,//mangaid/edit/id
   asyncHandler(async (req, res) => {
     const mangaId = parseInt(req.params.mangaId, 10);
     const manga = await db.Manga.findByPk(mangaId);
 
     const reviewId = parseInt(req.params.reviewId, 10);
     const editReviewUpdate = await db.Review.findByPk(reviewId);
+
+    checkPermissions(editReviewUpdate, res.locals.user)
 
     const { rating, comment } = req.body;
     const review = { rating, comment }
@@ -234,10 +245,13 @@ router.post('/:mangaId/reviews/edit/:reviewId', csrfProtection, reviewValidators
 //     })
 //   }));
 
-router.post('/:mangaId/reviews/:reviewId/delete', //mangaid/delete/id
-  async (req, res) => {
+router.post('/:mangaId/reviews/:reviewId/delete', requireAuth,//mangaid/delete/id
+  asyncHandler( async (req, res) => {
     const mangaId = parseInt(req.params.mangaId, 10);
+    const manga = db.Manga.findByPk(mangaId)
     const reviewId = parseInt(req.params.reviewId, 10);
+
+    checkPermissions(manga, reviewId, res.locals.user)
     const reviews = await db.Review.findOne({
       where: {
         id: reviewId,
@@ -250,77 +264,77 @@ router.post('/:mangaId/reviews/:reviewId/delete', //mangaid/delete/id
       message: "deleted"
     })
     // res.redirect(`/mangas`); //may be wrong path
-  });
+  }));
 
 
 
 //START//
-router.get("/:id/reviews/users/login", csrfProtection, (req, res) => {
-  const id = req.params.id;
-  res.render("review-user-login", {
-    title: "Login",
-    csrfToken: req.csrfToken(),
-    id,
-  });
-});
+// router.get("/:id/reviews/users/login", csrfProtection, (req, res) => {
+//   const id = req.params.id;
+//   res.render("review-user-login", {
+//     title: "Login",
+//     csrfToken: req.csrfToken(),
+//     id,
+//   });
+// });
 
 // userAuth
-const loginValidators = [
-  check("email")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a value for Email Address"),
-  check("password")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a value for Password"),
-];
+// const loginValidators = [
+//   check("email")
+//     .exists({ checkFalsy: true })
+//     .withMessage("Please provide a value for Email Address"),
+//   check("password")
+//     .exists({ checkFalsy: true })
+//     .withMessage("Please provide a value for Password"),
+// ];
 // userAuth
 
 
 // userAuth REVIEW
-router.post("/:id/reviews/users/login", csrfProtection, loginValidators, asyncHandler(async (req, res) => {
-  const id = req.params.id
-  const { email, password } = req.body;
+// router.post("/:id/reviews/users/login", csrfProtection, loginValidators, asyncHandler(async (req, res) => {
+//   const id = req.params.id
+//   const { email, password } = req.body;
 
-  let errors = [];
-  const validatorErrors = validationResult(req);
+//   let errors = [];
+//   const validatorErrors = validationResult(req);
 
-  if (validatorErrors.isEmpty()) {
-    // Attempt to get the user by their email address.
-    const user = await db.User.findOne({ where: { email } });
+//   if (validatorErrors.isEmpty()) {
+//     // Attempt to get the user by their email address.
+//     const user = await db.User.findOne({ where: { email } });
 
-    console.log(user);
-    if (user) {
-      // If the user exists then compare their password
-      // to the provided password.
-      console.log("before password match");
-      const passwordMatch = await bcrypt.compare(
-        password,
-        user.password.toString()
-      );
-      console.log(passwordMatch);
-      if (passwordMatch) {
-        // If the password hashes match, then login the user
-        // and redirect them to the default route.
-        // TODO Login the user.
-        console.log("matched");
-        loginUser(req, res, user);
-        return res.redirect(`/mangas/${id}/reviews/add`);
-      }
-    }
-    // Otherwise display an error message to the user.
-    errors.push("Login failed for the provided email address and password");
-  } else {
-    errors = validatorErrors.array().map((error) => error.msg);
-  }
+//     console.log(user);
+//     if (user) {
+//       // If the user exists then compare their password
+//       // to the provided password.
+//       console.log("before password match");
+//       const passwordMatch = await bcrypt.compare(
+//         password,
+//         user.password.toString()
+//       );
+//       console.log(passwordMatch);
+//       if (passwordMatch) {
+//         // If the password hashes match, then login the user
+//         // and redirect them to the default route.
+//         // TODO Login the user.
+//         console.log("matched");
+//         loginUser(req, res, user);
+//         return res.redirect(`/mangas/${id}/reviews/add`);
+//       }
+//     }
+//     // Otherwise display an error message to the user.
+//     errors.push("Login failed for the provided email address and password");
+//   } else {
+//     errors = validatorErrors.array().map((error) => error.msg);
+//   }
 
-  res.render("review-user-login", {
-    title: "Login",
-    email,
-    errors,
-    csrfToken: req.csrfToken(),
-  });
-})
-);
+//   res.render("review-user-login", {
+//     title: "Login",
+//     email,
+//     errors,
+//     csrfToken: req.csrfToken(),
+//   });
+// })
+// );
 //END//
 
 module.exports = router;
