@@ -4,7 +4,7 @@ include user-form.pug
 block content
   +validationErrorSummary(error)
 
-  img(src=`${manga.coverImg}`, alt="coverImg" style="width:200px")
+  img(src=`${manga.coverImg}`, alt="coverImg")
   form(action=`/mangas/${id}/reviews/add` method="post")
     input(type='hidden' name='_csrf' value=csrfToken)
       //- input(type='text' id='rating' name='rating' required)
@@ -26,7 +26,7 @@ block content
       label(for='review') What did you think?
       div
       textarea(id='comment' name='comment' placeholder="Enter your review (optional)")
-    button(type="submit") Post review
+    button(type="submit" class='purpBtn') Post review
   script(src="/js/starscript.js" type="module")
   //-       //- input(type="radio" id="star5" name="rate" value="5")
   //-       label(id="star5" title='text' style="opacity: 50%") ⭐
@@ -40,4 +40,3 @@ block content
   //-       label(id="star1" title='text' style="opacity: 50%") ⭐
   //-       input(type='hidden' name='_csrf' value=csrfToken)
   //-       div
-
