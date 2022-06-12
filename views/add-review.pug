@@ -27,6 +27,7 @@ block content
   form(action=`/mangas/${id}/reviews/add` method="post")
     input(type='hidden' name='_csrf' value=csrfToken)
       //- input(type='text' id='rating' name='rating' required)
+
     div(class="rating")
       if errors
         ul
@@ -58,3 +59,4 @@ block content
   //-       label(id="star1" title='text' style="opacity: 50%") ⭐
   //-       input(type='hidden' name='_csrf' value=csrfToken)
   //-       div
+
