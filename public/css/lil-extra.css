@@ -1,0 +1,15 @@
+.star-rating{
+  user-select: none;
+}
+.star{
+  font-size: 28px;
+  color: #ff9800;
+  background-color: unset;
+  border: none;
+}
+.star:hover{
+  cursor:pointer
+}
+#rating{
+  visibility: hidden;
+}

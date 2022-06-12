@@ -10,7 +10,11 @@ html
     link(rel="stylesheet" href="/css/style.css")
     link(rel="stylesheet" href="/css/header.css")
     link(rel="stylesheet" href="/css/mangas.css")
-    link(rel="stylesheet" href="/css/erik-css.css")
+    link(rel="stylesheet" href="/css/add-review_md.css")
+    link(rel="stylesheet" href="/css/general.css")
+    link(rel="stylesheet" href="/css/lil-extra.css")
+
+
     script(src="https://kit.fontawesome.com/dd433fc91b.js" crossorigin="anonymous")
   body
     header
@@ -25,7 +29,7 @@ html
               a(href=`/users/${user.id}` class="navlinks") MyProfile
             li
               form(class='form-inline pr-4' action='/users/logout' method='post')
-                button(class='btn btn-sm btn-warning' type='submit') Logout
+                button(class='purpBtn' type='submit') Logout
           else
             li(class="navlinks")
               a(href="/users/login" class="navlinks") Login
