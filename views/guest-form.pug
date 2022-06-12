@@ -22,6 +22,25 @@ block content
               a(href="/users/login" class="navlinks") Login
             li(class="navlinks")
               a(href="/guest" class="navlinks") Guest
-  form(action="/guest" method="post")
-    label(title="guest-entry") Let us know what you think!!
-      button(type="submit" class="purpBtn") Contine as guest
+  div(class="guestContainer")
+    div(class="guestForm")
+      form(action="/guest" method="post")
+        div(class="guestForm-group")
+          h2(title="guest-entry" id="guest-entry") MangaReads Guest
+          img(src="http://nerdist.com/wp-content/uploads/2015/04/dbz-thumbs-up.gif" id="guestGif")
+          div(id='guestAccess')
+            h3(id="accessTo") As a guest user you will have Access to ...
+            div(id="accessList")
+              ul(id="ulGuest") Mangas
+              div(id="liGuest")
+                li All mangas
+                li Edit location of manga based on read status
+                li Ability to add a review to a specific manga
+                li Edit/delete variety of preset reviews for each manga
+              ul(id="ulGuest") Bookshelves
+              div(id="liGuest")
+                li Preset list of added mangas
+                li Add and remove mangas from specific bookshelve(s)
+          label(id="thoughtsG") Let us know what you think!
+          div(id="guestSubmit")
+            button(type="submit" class="purpBtn" id="guestUserBttn") Contine as guest
