@@ -2,3 +2,65 @@
     display: flex;
     justify-content: center;
 }
+
+.form-group {
+    display: flex;
+    justify-content: center;
+}
+
+.user-login {
+    max-width: 500px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.user-register {
+
+    /* display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+*/
+    max-width: 500px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+/* .py-4 {
+    display: flex;
+    justify-content: center;
+} */
+
+.btn.btn-primary {
+    display: block;
+    justify-content: center;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+
+.btn.btn-warming.ml-2 {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.already-have-acc {
+    display: flex;
+    justify-content: center;
+}

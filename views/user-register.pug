@@ -3,7 +3,7 @@ include user-form.pug
 
 block content
   +validationErrorSummary(errors)
-  form(action='/users/register' method='post')
+  form(class='user-register' action='/users/register' method='post')
     input(type='hidden' name='_csrf' value=csrfToken)
     +field('First Name', 'firstName', user.firstName)
     +field('Last Name', 'lastName', user.lastName)
@@ -12,6 +12,6 @@ block content
     +field('Confirm Password', 'confirmPassword', '', 'password')
     div(class='py-4')
       button(type='submit' class='btn btn-primary') Register
-      a(href='/' class='btn btn-warning ml-2') Cancel
-  div
+    a(href='/' class='btn btn-warning ml-2') Cancel
+  div(class='already-have-acc')
     p: a(href='/users/login') Already have an account?
