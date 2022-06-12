@@ -98,7 +98,6 @@ router.post('/register', csrfProtection, userValidators,
       password
     });
 
-    // console.log(user)
     if (validatorErrors.isEmpty()) {
       // user.password = hashedPassword;
       user.password=hashedPassword
@@ -106,7 +105,6 @@ router.post('/register', csrfProtection, userValidators,
       loginUser(req, res, user);
 
       const {userId} = req.session.auth
-      console.log("HERE", userId)
       const wantToRead = await Bookshelf.build({
         userId,
         name: "Want To Read",
@@ -129,7 +127,7 @@ router.post('/register', csrfProtection, userValidators,
       res.redirect("/");
     } else {
       const errors = validatorErrors.array().map((error) => error.msg);
-      console.log(errors)
+
       res.render('user-register', {
         title: 'Register',
         user,
@@ -175,18 +173,14 @@ router.post('/login', csrfProtection, loginValidators,
       // Attempt to get the user by their email address.
       const user = await User.findOne({ where: { email } });
 
-      console.log(user);
       if (user) {
         // If the user exists then compare their password
         // to the provided password.
-        console.log("before password match")
         const passwordMatch = await bcrypt.compare(password, user.password.toString());
-        console.log(passwordMatch)
         if (passwordMatch) {
           // If the password hashes match, then login the user
           // and redirect them to the default route.
           // TODO Login the user.
-          console.log("matched")
           loginUser(req, res, user);
           return res.redirect('/');
         }
@@ -261,7 +255,6 @@ router.get("/:userId/bookshelves/:bookshelfId", async (req, res) => {
     include: [User, Manga],
     // raw: true
   });
-  // console.log(bookshelf)
   res.render(pugName, { bookshelf, userId, bookshelfId });
 })
 
@@ -272,7 +265,6 @@ router.post("/:userId/bookshelves/:bookShelfId/delete", async (req, res)=>{
       bookshelfId
     }
   });
-  // console.log(mangaBookshelf)
   if(mangaBookshelf){
     await mangaBookshelf.destroy();
   }

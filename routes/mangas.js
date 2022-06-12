@@ -33,18 +33,43 @@ router.get("/", async (req, res) => {
 router.get("/:mangaId", async (req, res) => {
   const mangaId = req.params.mangaId
   const manga = await db.Manga.findByPk(mangaId);
+  const reviews = await db.Review.findAll({
+    where: {mangaId},
+    include: [
+      { model: db.Manga, as: "Manga" },
+      { model: db.User, as: "user" },
+  ]})
+  let sum = 0;
+  let counter = 0;
+  await reviews.forEach(review => {
+    sum += review.rating;
+    counter += 1;
+  });
+  const avg = sum / counter
+  const reviewAvg =avg.toFixed(1)
+  // const avg = sum / counter;
   //need bookshleves here
   //use the auth to get user id
   //findall bookshleves where userId = user.id
+  //START
+
+
+  // if(reviews) {
+  //   res.render('reviews', { reviews, manga, id})
+  // } else {
+  //   reviews = null
+  //   res.render('reviews', {reviews, manga, id})
+  // }
+  //END
   if (req.session.auth) {
     const { userId } = req.session.auth;
     const bookshelves = await db.Bookshelf.findAll({
       where: { userId }
     })
-    res.render("manga", { manga, bookshelves, userId });
+    res.render("manga", { manga, bookshelves, userId, reviewAvg, counter, reviews, mangaId});
   } else {
     const userId = null
-    res.render("manga", { manga, userId });
+    res.render("manga", { manga, userId, reviewAvg, counter, reviews, mangaId});
   }
 })
 
@@ -148,7 +173,6 @@ router.post("/:id/reviews/add", requireAuth, csrfProtection, reviewValidators,
       comment
     })
     const validatorErrors = validationResult(req);
-    console.log(validatorErrors)
 
 
     if (validatorErrors.isEmpty()) {
@@ -206,7 +230,7 @@ router.post('/:mangaId/reviews/edit/:reviewId', csrfProtection, reviewValidators
       await editReviewUpdate.update(review);
       // editReviewUpdate.rating = rating
       // editReviewUpdate.comment = comment
-      res.redirect(`/mangas/${mangaId}/reviews`);
+      res.redirect(`/mangas/${mangaId}`);
     } else {
       const errors = validatorErrors.array().map((error) => error.msg);
       res.render('edit-review', {
@@ -288,21 +312,18 @@ router.post("/:id/reviews/users/login", csrfProtection, loginValidators, asyncHa
     // Attempt to get the user by their email address.
     const user = await db.User.findOne({ where: { email } });
 
-    console.log(user);
+
     if (user) {
       // If the user exists then compare their password
       // to the provided password.
-      console.log("before password match");
       const passwordMatch = await bcrypt.compare(
         password,
         user.password.toString()
       );
-      console.log(passwordMatch);
       if (passwordMatch) {
         // If the password hashes match, then login the user
         // and redirect them to the default route.
         // TODO Login the user.
-        console.log("matched");
         loginUser(req, res, user);
         return res.redirect(`/mangas/${id}/reviews/add`);
       }

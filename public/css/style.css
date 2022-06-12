@@ -1,10 +1,14 @@
+html {
+  scroll-behavior: smooth;
+}
 body{
   font-family: sans-serif;
-  background: #aaa5ad;
+  /* background: #aaa5ad; */
+  background: #2b282d;
 }
 .mangaCardTitle{
   text-align: center;
-  font-size: 12px;
+  font-size: 16px;
   margin-left: 10px;
   margin-right: 10px;
   /* padding-top: 10px; */
@@ -19,6 +23,7 @@ body{
   /* margin: 50px 0; */
 }
 .content{
+  color: #e5e5e5;
   width: 20%;
   height: 180px;
   margin: 15px;
@@ -28,9 +33,10 @@ body{
   border-radius: 16px;
   cursor: pointer;
   padding-top: 8px;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.26), 0 10px 10px rgba(0,0,0,0.21);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.58), 0 10px 10px rgba(0,0,0,0.58);
   transition: .5s;
-  background: #e5e5e5;
+  background: #eeeeee6d;
+  border: 3px solid rgba(72, 65, 156, 0.8);
 }
 .content:hover{
   box-shadow: 0 3px 6px rgba(0,0,0,0.14), 0 3px 6px rgba(0, 0, 0, 0.22);
@@ -57,25 +63,29 @@ body{
   color: black;
 }
 .mangasTitle{
-  font-size: 12px;
+  font-size: 18px;
   margin-top: 60px;
   margin-left: 50px;
 }
+.book-shelf{
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
 @media(max-width:800px){
   .mangaCardTitle{ font-size: 9px;}
-  .mangaCardGenre{ font-size: 6px;}
+  .mangaCardGenre{ visibility: hidden;}
   .content{ width: 108px; height: 128px}
   .img{width: 60px; height:60px}
 }
 @media(max-width:600px){
   .mangaCardTitle{ font-size: 8px;}
-  .mangaCardGenre{ visibility: hidden;}
+  .mangaCardGenre{ visibility: hidden; }
   .content{ width: 100px; height: 100px;}
   .img{width: 60px; height:60px}
 }
 @media(max-width:508px){
   .mangaCardTitle{ font-size: 8px;}
-  .mangaCardGenre{ font-size: hidden;}
+  .mangaCardGenre{ visibility: hidden;}
   .content{ width: 100px; height: 100px}
   .img{width: 60px; height:60px}
 }

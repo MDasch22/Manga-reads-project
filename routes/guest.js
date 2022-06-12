@@ -22,7 +22,6 @@ router.post("/", async(req, res) => {
       firstName: "Guest"
     }
   })
-  console.log(user)
   loginUser(req, res, user);
   return res.redirect('/')
 })

@@ -1,3 +1,4 @@
+//DELETE
 window.addEventListener("DOMContentLoaded", async (event) => {
 
     const bookshelves = document.querySelectorAll(".delete-button")
@@ -18,6 +19,26 @@ window.addEventListener("DOMContentLoaded", async (event) => {
         })
     };
 });
+// //EDIT
+// window.addEventListener("DOMContentLoaded", async (event) => {
+
+//     const editBtns = document.querySelectorAll(".editBtn")
+
+//     for (let i = 0; i < editBtns.length; i++) {
+//         editBtns[i].addEventListener("click", async (event) => {
+//             editBtns.style="display: ''"
+//             if (data.message === "deleted") {
+//                 const reviews = document.getElementById(`${reviewId}-${mangaId}`)
+//                 reviews.remove()
+//             }
+//         })
+//     };
+// });
+
+// $(".cartbtn").on("click", function () {
+//   var parent_id = $(this).parent().parent().attr("id");
+//   console.log(parent_id);
+// });
 
 // /:mangaId/reviews/delete/:deleteId\
 

@@ -124,7 +124,7 @@ module.exports = {
           author: "Masashi Kishimoto",
           description:
           "Naruto is a ninja-in-training with an incorrigible knack for mischief. His wild antics amuse his teammates, but Naruto is completely serious about one thing: becoming the world's greatest ninja! Twelve years ago the Village Hidden in the Leaves was attacked by a fearsome threat. A nine-tailed fox spirit claimed the life of the village leader, the Hokage, and many others. Today, the village is at peace, and a troublemaking kid named Naruto is struggling to graduate from Ninja Academy. His goal may be to become Hokage, but his true destiny will be much more complicated. The adventure begins now!",
-          genre: "Fantasy/Action/Adventure/Comedy/Shonen",
+          genre: "Fantasy/Action/Comedy/Shonen",
           releaseDate: "March 3, 2000",
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -135,7 +135,7 @@ module.exports = {
           author: "Koyoharu Gotouge",
           description:
           "In Taisho-era Japan, Tanjiro Kamado is a kindhearted boy who makes a living selling charcoal. But his peaceful life is shattered when a demon slaughters his entire family. His little sister Nezuko is the only survivor, but she has been transformed into a demon herself! Tanjiro sets out on a dangerous journey to find a way to return his sister to normal and destroy the demon who ruined his life. Learning to slay demons won’t be easy, and Tanjiro barely knows where to start. The surprise appearance of another boy named Giyu, who seems to know what’s going on, might provide some answers…but only if Tanjiro can stop Giyu from killing his sister first! ",
-          genre: "Fantasy/Action/Adventure/Horror/Shonen",
+          genre: "Fantasy/Action/Horror/Shonen",
           releaseDate: "April 6, 2019",
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -146,7 +146,7 @@ module.exports = {
           author: "Gege Akutami",
           description:
           "In a world where cursed spirits feed on unsuspecting humans, fragments of the legendary and feared demon Ryomen Sukuna were lost and scattered about. Should any demon consume Sukuna’s body parts, the power they gain could destroy the world as we know it. Fortunately, there exists a mysterious school of jujutsu sorcerers who exist to protect the precarious existence of the living from the supernatural!  Yuta Okkotsu is a nervous high school student who is suffering from a serious problem—his childhood friend Rika has turned into a Curse and won't leave him alone. Since Rika is no ordinary Curse, his plight is noticed by Satoru Gojo, a teacher at Jujutsu High, a school where fledgling exorcists learn how to combat Curses. Gojo convinces Yuta to enroll, but can he learn enough in time to confront the Curse that haunts him?",
-          genre: "Fantasy/Action/Adventure/Horror/Shonen",
+          genre: "Fantasy/Action/Horror/Shonen",
           releaseDate: "December 15, 2018",
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -157,7 +157,7 @@ module.exports = {
           author: "Kohei Horikoshi",
           description:
           "What would the world be like if 80 percent of the population manifested superpowers called “Quirks” at age four? Heroes and villains would be battling it out everywhere! Being a hero would mean learning to use your power, but where would you go to study? The Hero Academy of course! But what would you do if you were one of the 20 percent who were born Quirkless? Middle school student Izuku Midoriya wants to be a hero more than anything, but he hasn’t got an ounce of power in him. With no chance of ever getting into the prestigious U.A. High School for budding heroes, his life is looking more and more like a dead end. Then an encounter with All Might, the greatest hero of them all, gives him a chance to change his destiny…",
-          genre: "Fantasy/Action/Adventure/Horror/Shonen",
+          genre: "Fantasy/Action/Horror/Shonen",
           releaseDate: "December 15, 2018",
           createdAt: new Date(),
           updatedAt: new Date(),

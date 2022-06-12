@@ -1,0 +1,58 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    title Mangareads - #{title}
+    meta(name="description" content="")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    //- meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    link(rel="stylesheet" href="/css/style.css")
+    link(rel="stylesheet" href="/css/header.css")
+    link(rel="stylesheet" href="/css/mangas.css")
+    link(rel="stylesheet" href="/css/general.css")
+    link(rel="stylesheet" href="/css/lil-extra.css")
+    script(src="https://kit.fontawesome.com/dd433fc91b.js" crossorigin="anonymous")
+  body
+    header
+      a(href="/")
+        img(class="logo" src="/images/mangaReadsLogo.jpg" alt="logo")
+      nav
+        ul(class="nav__links")
+          if locals.authenticated
+            //- li
+            //-   span(class='navbar-text px-4') Welcome #{user.firstName}!
+            li
+              a(href=`/users/${user.id}` class="navlinks") MyProfile
+            li
+              form(class='form-inline pr-4' action='/users/logout' method='post')
+                button(class='purpBtn' type='submit') Logout
+          else
+            li(class="navlinks")
+              a(href="/users/login" class="navlinks") Login
+            li(class="navlinks")
+              a(href="/guest" class="navlinks") Guest
+    block content
+//- html
+//-   head
+//-     meta(charset="utf-8")
+//-     meta(http-equiv="X-UA-Compatible" content="IE=edge")
+//-     title Navbar
+//-     meta(name="description" content="")
+//-     meta(name="viewport" content="width=device-width, initial-scale=1")
+//-     link(rel="stylesheet" href="/css/header.css")
+//-   body
+//-     header
+//-       img(class="logo" src="" alt="logo")
+//-       nav
+//-         ul(class="nav__links")
+//-           if //signed in
+//-             li
+//-               a(href="/users/profile")
+//-             li
+//-               a(href="/users/logout") Logout
+//-           else
+//-             li
+//-               a(href="/users/login") Login
+//-             li
+//-               a(href="/guest") Guest

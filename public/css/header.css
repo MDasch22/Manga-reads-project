@@ -4,7 +4,7 @@ header{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #24252A
+  background-color: #000000
 }
 .navlinks{
   margin-top: 10px;
@@ -40,15 +40,18 @@ header{
   color:rgba(162, 163, 255, 0.6)
 }
 .purpBtn{
+  color: white;
   padding:6px 14px;
-  background-color: rgba(162, 163, 255, 0.8);
+  background-color: rgba(72, 65, 156);
   border-radius: 14px;
   cursor: pointer;
   transition:all 0.3s ease 0s;
 }
 .purpBtn:hover{
-  background-color: rgba(72, 65, 156, 0.8);
+  background-color: rgba(22, 20, 49);
   color: white;
+  border-width: 4px;
+  border-color: rgb(124, 113, 251);
 }
 .navbar-text{
   color: white;

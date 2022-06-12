@@ -31,17 +31,7 @@
 .indivCard {
   grid-area: card;
 }
-.manga-page-image-container{
-  align-content: center;
-  margin: 50px
-}
-.manga-page-image{
-  height: 300px;
-  width: 200px;
-}
-.manga-page-details{
-  background-color: aliceblue;
-}
+/* REVIEWS PAGE */
 td{
   padding: 9px;
 }
@@ -50,7 +40,7 @@ th{
 }
 .reviews-table{
   border-collapse: collapse;
-  margin: 25px;
+  margin: 25px 40px;
   background-color: #e5e5e5;
   border-radius: 10px;
 }
@@ -70,4 +60,159 @@ th{
 }
 output{
   color: white
+}
+/* MANGA DETAILS PAGE */
+.manga-page-image-container{
+  align-content: center;
+  margin: 50px
+}
+.manga-page-image{
+  height: 333px;
+  width: 216px;
+  border-radius: 18px;
+  margin: 30px 40px 10px 40px;
+}
+.manga-page-details{
+  background-color: aliceblue;
+}
+.reviews-star-container{
+  width: 333px;
+}
+.write-revw-btn{
+  padding-left: 25px;
+}
+.title-header{
+  padding-top: 25px;
+  padding-left: 25px;
+}
+.reviews-star{
+  user-select: none;
+  font-size: 14px;
+  color: #ff9800;
+  background-color: unset;
+  border: none;
+}
+.manga-details-page{
+  background-blend-mode: overlay;
+  background-image: url('/images/${manga.id}');
+  background-size:cover
+}
+.manga-page-details{
+  margin: 40px;
+  background-color: #e5e5e5;
+  padding: 22px 44px;
+  align-content: center;
+  width:fit-content;
+  border-radius: 18px;
+}
+.manga-title{
+  font-size: 30px;
+  margin-bottom: 40px;
+}
+.manga-author{
+  margin-bottom: 8px;
+}
+.manga-descr{
+  width: 500px;
+}
+.manga-date{
+  margin-top: 14px ;
+}
+.reviews-btn{
+  font-size: 18px;
+  color: #ff9800;
+  margin-left: 40px;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+.book-shelf{
+  margin-left: 40px;
+}
+/* FOOTER */
+.footer-body{
+  margin-top: 30px;
+  position: relative;
+  line-height: 1.5;
+  font-family: sans-serif;
+  background-color: black;
+}
+.footer{
+  padding-top: 30px;
+  padding-bottom: 40px;
+}
+.footer-container{
+  max-width: 1170px;
+  margin: auto;
+  background-color: solid black;
+}
+ul{
+  list-style: none;
+}
+.row{
+  display: flex;
+  flex-wrap: wrap;
+}
+.footer-col{
+  width: 25%;
+  padding: 0 15px;
+}
+.footer-col h4{
+  color: #e5e5e5;
+  font-size: 18px;
+  text-transform: capitalize;
+  margin-bottom: 35px;
+  font-weight: 500;
+  position: relative;
+}
+.footer-col h4::before{
+  content: '';
+  position: absolute;
+  background-color: rgb(106, 94, 233);
+  left: 0;
+  bottom: -10px;
+  height: 2px;
+  box-sizing: border-box;
+  width: 166px;
+}
+.footer-col ul li:not(:last-child){
+  margin-bottom: 10px;
+}
+.footer-col ul li a{
+  font-size: 16px;
+  text-transform: capitalize;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 300;
+  color: #bbbbbb;
+  display: block;
+  transition: all 0.3s ease;
+}
+.footer-col ul li{
+  font-size: 16px;
+  text-transform: capitalize;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 300;
+  color: rgb(100, 91, 193);
+  display: block;
+  transition: all 0.3s ease;
+}
+.footer-col ul li a:hover{
+  color: #ffffff;
+  padding-left: 8px;
+}
+@media(max-width: 767px){
+  .footer-col{
+    width: 50%;
+    margin-bottom: 30px;
+  }
+}
+@media(max-width: 574px){
+  .footer-col{
+    width: 100%;
+  }
+}
+/* LOGIN */
+.login-form{
+  position: relative;
 }

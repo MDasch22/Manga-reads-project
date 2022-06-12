@@ -1,0 +1,65 @@
+extends layout.pug
+include user-form.pug
+
+block content
+  body
+    header
+      a(href="/")
+        img(class="logo" src="/images/mangaReadsLogo.jpg" alt="logo")
+      nav
+        ul(class="nav__links")
+          if locals.authenticated
+            //- li
+            //-   span(class='navbar-text px-4') Welcome #{user.firstName}!
+            li
+              a(href=`/users/${user.id}` class="navlinks") MyProfile
+            li
+              form(class='form-inline pr-4' action='/users/logout' method='post')
+                button(class='purpBtn' type='submit') Logout
+          else
+            li(class="navlinks")
+              a(href="/users/login" class="navlinks") Login
+            li(class="navlinks")
+              a(href="/guest" class="navlinks") Guest
+  +validationErrorSummary(errors)
+  div(class='login-form')
+    form(action='/users/register' method='post')
+      input(type='hidden' name='_csrf' value=csrfToken)
+      +loginfield('First Name', 'firstName', user.firstName, 'Alec')
+      +loginfield('Last Name', 'lastName', user.lastName, 'The man')
+      +loginfield('Email Address', 'email', user.email, 'greenjellolover@gmail.com')
+      +loginfield('Password', 'password', user.password, 'passowrd', 'password')
+      +loginfield('Confirm Password', 'confirmPassword', '', 'password',
+       'password')
+      div(class='py-4')
+        button(type='submit' class='purpBtn') Register
+        a(href='/' class='btn btn-warning ml-2') Cancel
+    //-   input(type='hidden' name='_csrf' value=csrfToken)
+    //-     //- +field('Email Address', 'email', email)
+    //-     //- +field('Password', 'password', null, 'text')
+    //-   div(class="input-group")
+    //-     input(type="text" class="loginputs" placeholder="Bobo" id="register-firstName" class='register-item' value=user.firstName)
+    //-     label(for="register-firstName" class="registerLabel") First Name
+    //-       span(class="icon") First Name
+    //-         i(class="ri-firstName.line")
+    //-     input(type="text" class="loginputs" placeholder="Bobus" id="register-lastName" class='register-item' value=user.lastName)
+    //-     label(for="lastName" class="registerLabel") Last Name
+    //-       span(class="icon") Last Name
+    //-         i(class="ri-lastName.line")
+    //-     input(type="email" class="loginputs" placeholder="bobo@bobus.com" id="email" class='register-item' value=user.email)
+    //-     label(for="email" class="registerLabel") Email
+    //-       span(class="icon") Email
+    //-         i(class="ri-mail.line")
+    //-     input(type="password" class="loginputs" placeholder="password" id="password" class='register-item' value=user.password)
+    //-     label(for="password" class="registerLabel") Password
+    //-       span(class="icon") Password
+    //-         i(class="ri-password.line")
+    //-     input(type="password" class="loginputs" placeholder="password" id="confirmedPassword" class='register-item')
+    //-     label(for="confirmedPassowrd" class="registerLabel") Confirm Password
+    //-       span(class="icon") Confirm Password
+    //-         i(class="ri-confirmPassword.line")
+    //-   div(class='py-4')
+    //-     button(type='submit' class='purpBtn') Start Reading!
+    //-     a(href='/' class='btn btn-warning ml-2') Cancel
+    div
+      p: a(href='/users/login') Already have an account?

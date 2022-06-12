@@ -1,0 +1,47 @@
+extends layout.pug
+
+include user-form.pug
+
+block content
+  body
+    header
+      a(href="/")
+        img(class="logo" src="/images/mangaReadsLogo.jpg" alt="logo")
+      nav
+        ul(class="nav__links")
+          if locals.authenticated
+            //- li
+            //-   span(class='navbar-text px-4') Welcome #{user.firstName}!
+            li
+              a(href=`/users/${user.id}` class="navlinks") MyProfile
+            li
+              form(class='form-inline pr-4' action='/users/logout' method='post')
+                button(class='purpBtn' type='submit') Logout
+          else
+            li(class="navlinks")
+              a(href="/users/login" class="navlinks") Login
+            li(class="navlinks")
+              a(href="/guest" class="navlinks") Guest
+    div(class="login-body")
+      +validationErrorSummary(errors)
+      div(class='login-form')
+        form(action='/users/login' method='post')
+          input(type='hidden' name='_csrf' value=csrfToken)
+          +loginfield('Email Address', 'email', email, 'bobo@bobus.com')
+          +loginfield('Password', 'password', null, "bobo888", 'text')
+          div(class='py-4')
+            button(type='submit' class='purpBtn') Start Reading!
+            a(href='/' class='btn btn-warning ml-2') Cancel
+        div
+          p: a(href='/users/register' class="cancel-btn") Don't have an account?
+
+          //- div(class="input-group")
+          //-   label(for="email" class="loginLabel") Email
+          //-     span(class="icon") Email
+          //-       i(class="ri-mail.line")
+          //-   input(type="email" class="loginputs" placeholder="email@domain.com" id="email" value=email)
+          //- div(class="input-group")
+          //-   label(for="password" class="loginLabel") Password
+          //-     span(class="icon") Password
+          //-       i(class="ri-password.line")
+          //-   input(type="password" class="loginputs" placeholder="password" id="password" value=password)

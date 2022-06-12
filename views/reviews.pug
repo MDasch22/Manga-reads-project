@@ -1,30 +1,51 @@
 extends layout.pug
 
 block content
-  h1= reviews[0].Manga.title
-  if userId !== null
-    a(href=`/mangas/${id}/reviews/add` value="post")
-      button(type='button' class='purpBtn') Write a review
-  else
-    a(href=`/mangas/${id}/reviews/users/login` value="post")
-      button(type='button' class='purpBtn') Write a review
-  table(class="reviews-table")
-    thead
-      tr(class="reviews-table-headers")
-        //- th(name="firstName") Name:
-        //- th(name="rating") Rating:
-        //- th(name="comments") Comments:
-    tbody
-      each review in reviews
-        tr(id=`${review.id}-${review.mangaId}`)
-          td(class="user-name")= review.user.firstName
-          td= `${review.rating} / 5`
-          td(class="user-comment")= review.comment
-          if userId !== null
-            if review.userId == userId
-              td
-                a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
-                button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
+  body
+    header
+      a(href="/")
+        img(class="logo" src="/images/mangaReadsLogo.jpg" alt="logo")
+      nav
+        ul(class="nav__links")
+          if locals.authenticated
+            //- li
+            //-   span(class='navbar-text px-4') Welcome #{user.firstName}!
+            li
+              a(href=`/users/${user.id}` class="navlinks") MyProfile
+            li
+              form(class='form-inline pr-4' action='/users/logout' method='post')
+                button(class='purpBtn' type='submit') Logout
+          else
+            li(class="navlinks")
+              a(href="/users/login" class="navlinks") Login
+            li(class="navlinks")
+              a(href="/guest" class="navlinks") Guest
+  div(class='reviews-container')
+    h1(class="title-header" style="color: #e5e5e5")=reviews[0].Manga.title
+    table(class="reviews-table")
+      thead
+        tr(class="reviews-table-headers")
+          //- th(name="firstName") Name:
+          //- th(name="rating") Rating:
+          //- th(name="comments") Comments:
+      tbody
+        each review in reviews
+          tr(id=`${review.id}-${review.mangaId}`)
+            td(class="user-name")= review.user.firstName
+            td(class='reviews-star') #{review.rating} &#9733
+            div(class="reviews-table-comment")
+              td(class="user-comment")= review.comment
+            if userId !== null
+              if review.userId == userId
+                td
+                  a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
+                  button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
+    if userId !== null
+      a(href=`/mangas/${id}/reviews/add` value="post" class="write-revw-btn")
+        button(type='button' class='purpBtn') Write a review
+    else
+      a(href=`/mangas/${id}/reviews/users/login` value="post" class="write-revw-btn")
+        button(type='button' class='purpBtn') Write a review
   //- else
   //-   //- a(href=`/users/login`)
   //-   a(href=`/mangas/${id}/reviews/users/login` value="post")
