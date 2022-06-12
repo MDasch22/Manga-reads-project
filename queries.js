@@ -10,7 +10,6 @@ async function doesMangaExistForUser(id) {
     //   mangaId
     // },
   })
-  console.log(JSON.stringify(user,null, 2));
 }
 
 doesMangaExistForUser(1)

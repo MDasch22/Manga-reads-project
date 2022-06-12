@@ -7,14 +7,32 @@ html
     meta(name="description" content="")
     meta(name="viewport" content="width=device-width, initial-scale=1")
     //- meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
-    link(rel="icon" type="image/x-icon" href="/images/favicon.ico")
     link(rel="stylesheet" href="/css/style.css")
     link(rel="stylesheet" href="/css/header.css")
     link(rel="stylesheet" href="/css/mangas.css")
     link(rel="stylesheet" href="/css/general.css")
     link(rel="stylesheet" href="/css/lil-extra.css")
     script(src="https://kit.fontawesome.com/dd433fc91b.js" crossorigin="anonymous")
-  block content
+  body
+    header
+      a(href="/")
+        img(class="logo" src="/images/mangaReadsLogo.jpg" alt="logo")
+      nav
+        ul(class="nav__links")
+          if locals.authenticated
+            //- li
+            //-   span(class='navbar-text px-4') Welcome #{user.firstName}!
+            li
+              a(href=`/users/${user.id}` class="navlinks") MyProfile
+            li
+              form(class='form-inline pr-4' action='/users/logout' method='post')
+                button(class='purpBtn' type='submit') Logout
+          else
+            li(class="navlinks")
+              a(href="/users/login" class="navlinks") Login
+            li(class="navlinks")
+              a(href="/guest" class="navlinks") Guest
+    block content
 //- html
 //-   head
 //-     meta(charset="utf-8")

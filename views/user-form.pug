@@ -10,3 +10,29 @@ mixin field(labelText, fieldName, fieldValue, fieldType = 'text')
   div(class='form-group')
     label(for=fieldName)= labelText
     input(type=fieldType id=fieldName name=fieldName value=fieldValue class='form-control')
+
+mixin loginfield(labelText, fieldName, fieldValue, fieldPlaceholder, fieldType = 'text')
+  div(class='input-group')
+    label(for=fieldName class="loginLabel")= labelText
+    input(type=fieldType id=fieldName name=fieldName value=fieldValue class='form-control loginputs' placeholder=fieldPlaceholder)
+
+mixin footer
+  footer(class='footer footer-body')
+      div(class='footer-container')
+        div(class='row')
+          div(class='footer-col')
+            h4 Connect With Us
+            ul(class='footer-ul')
+              li
+                a(target="_blank" rel="noopener noreferrer" href='https://www.linkedin.com/in/michael-dasch-71b6a6187') Michael Dasch
+              li
+                a(target="_blank" rel="noopener noreferrer" href='https://www.linkedin.com/in/elias-rodriguez-066080155') Elias(bo-codes) Rodriguez
+              li
+                a(target="_blank" rel="noopener noreferrer" href='https://www.linkedin.com/in/jingxun-yin-30397b156/') Jingxun Yin
+              li
+                a(target="_blank" rel="noopener noreferrer" href='https://www.linkedin.com/in/erikphinguyen/' ) Erik Nguyen
+          div(class='footer-col')
+            h4 In Collaboration With:
+            ul(clas='footer-ul')
+              li App Academy
+              li Module 4 Team

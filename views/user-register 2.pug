@@ -3,6 +3,25 @@ extends layout.pug
 include user-form.pug
 
 block content
+  body
+    header
+      a(href="/")
+        img(class="logo" src="/images/mangaReadsLogo.jpg" alt="logo")
+      nav
+        ul(class="nav__links")
+          if locals.authenticated
+            //- li
+            //-   span(class='navbar-text px-4') Welcome #{user.firstName}!
+            li
+              a(href=`/users/${user.id}` class="navlinks") MyProfile
+            li
+              form(class='form-inline pr-4' action='/users/logout' method='post')
+                button(class='purpBtn' type='submit') Logout
+          else
+            li(class="navlinks")
+              a(href="/users/login" class="navlinks") Login
+            li(class="navlinks")
+              a(href="/guest" class="navlinks") Guest
   +validationErrorSummary(errors)
   form(action='/users/register' method='post')
     input(type='hidden' name='_csrf' value=csrfToken)

@@ -3,25 +3,90 @@ extends layout.pug
 include user-form.pug
 
 block content
-  //- div(class="manga-page-image-container")
-  img(src=`${manga.coverImg}` class="manga-page-image")
-  h2= `${manga.title}`
+  body(class='manga-details-page' style=`background-image: url(/images/${manga.id}.jpg)`)
+    header
+      a(href="/")
+        img(class="logo" src="/images/mangaReadsLogo.jpg" alt="logo")
+      nav
+        ul(class="nav__links")
+          if locals.authenticated
+            li
+              a(href=`/users/${user.id}` class="navlinks") MyProfile
+            li
+              form(class='form-inline pr-4' action='/users/logout' method='post')
+                button(class='purpBtn' type='submit') Logout
+          else
+            li(class="navlinks")
+              a(href="/users/login" class="navlinks") Login
+            li(class="navlinks")
+              a(href="/guest" class="navlinks") Guest
+  div
+    img(src=`${manga.coverImg}` class="manga-page-image")
+  div(class="reviews-star-container")
+    ul
+    li:p(class='reviews-star' style="font-weight: bold; font-size: 22px; margin-left: 40px") #{reviewAvg} &#9733
+    li:p
+      a(href="#reviews-link" class='reviews-btn') #{counter} Reviews
   div(class="manga-page-details")
-    h3= `${manga.author}`
-    p= `${manga.description}`
-    p= `${manga.genre}`
-    p= `${manga.releaseDate}`
-
+    h2(class='manga-title')= `${manga.title}`
+    h3(class='manga-author')= `${manga.author}`
+    p(class="manga-descr")= `${manga.description}`
+    p(class='manga-genre')= `${manga.genre}`
+    p(class='manga-date')= `Realse Date: ${manga.releaseDate}`
+  //- BOOKSHELF SELECT
   if userId !== null
     select(name="bsSelector" id=`${manga.id}` class="book-shelf")
-      option(value="") Select One
+      option(value="") Add To Bookshelf
       each bookshelf in bookshelves
         option(value=`${bookshelf.id}`) #{bookshelf.name}
-    div
-    a(href= `/mangas/${manga.id}/reviews`)
-      button(type='button') View all reviews
-  else
-    div
-    a(href= `/mangas/${manga.id}/reviews`)
-      button(type='button' class='purpBtn') View all reviews
+  //- REVIEW TABLE
+  div(class='reviews-container' id="reviews-link")
+    table(class="reviews-table")
+      thead
+        tr(class="reviews-table-headers")
+      tbody
+        each review in reviews
+          tr(id=`${review.id}-${review.mangaId}`)
+            td(class="user-name")= review.user.firstName
+            td(class='reviews-star') #{review.rating} &#9733
+            div(class="reviews-table-comment")
+              td(class="user-comment")= review.comment
+            if userId !== null
+              if review.userId == userId
+                td
+                  a(href=`/mangas/${mangaId}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
+                  button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
+    if userId !== null
+      a(href=`/mangas/${mangaId}/reviews/add` value="post" class="write-revw-btn")
+        button(type='button' class='purpBtn') Write a review
+    else
+      a(href=`/mangas/${mangaId}/reviews/users/login` value="post" class="write-revw-btn")
+        button(type='button' class='purpBtn') Write a review
+  //- //-EDIT FORM
+  //- form(action=`/mangas/${mangaId}/reviews/edit/${reviewId}` method="post")
+  //- input(type='hidden' name='_csrf' value=csrfToken)
+  //- div(class="rating")
+  //-   if errors
+  //-     ul
+  //-       each error in errors
+  //-         li= error
+  //-   label(for='rating-edit') Previous rating:
+  //-   label(for='rating')= review.rating
+  //-   p Rating
+  //-   div(class="star_rating")
+  //-     button(class="star") &#9734
+  //-     button(class="star") &#9734
+  //-     button(class="star") &#9734
+  //-     button(class="star") &#9734
+  //-     button(class="star") &#9734
+  //-     p(class="current_rating") 0 of 5
+  //-   input(type="text" id="rating" name="rating" value="")
+  //-   div
+  //-   label(for='review') What did you think?
+  //-   div
+  //-   textarea(id='comment' name='comment')= review.comment
+
+  //- button(type="submit") Re-post review
+  //- script(src="/js/starscript.js" type="module")
+  script(src='/js/delete.js')
   script(src="/js/index.js" type="module")
