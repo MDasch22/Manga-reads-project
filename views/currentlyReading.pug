@@ -39,4 +39,5 @@ block content
             td= Manga.releaseDate
             td: a(href=`/mangas/${Manga.id}`) learn more
             td: button(class="delete-currentlyReading purpBtn" id=`${userId}-${bookshelfId}`) Delete
-   +footer
+    script(src="/js/currentlyReading.js" type="module")
+  +footer

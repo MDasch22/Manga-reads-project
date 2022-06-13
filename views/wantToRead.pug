@@ -37,4 +37,5 @@ block content
             td= Manga.releaseDate
             td: a(href=`/mangas/${Manga.id}`) learn more
             td: button(class="delete-wantToRead purpBtn" id=`${userId}-${bookshelfId}`) Delete
+    script(src="/js/wantToRead.js" type="module")
   +footer
