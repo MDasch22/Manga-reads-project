@@ -105,8 +105,9 @@ router.get("/:id/reviews", async (req, res) => {
     where: { mangaId: id },
     include: [db.Manga, db.User],
   });
-  const { userId } = req.session.auth;
-  if(userId){
+
+  if(req.session.auth){
+    const { userId } = req.session.auth;
     res.render("reviews", { reviews, id, userId})
   }else{
     const userId = null;

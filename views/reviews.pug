@@ -21,10 +21,10 @@ block content
           td= `${review.rating} / 5`
           if(userId !== null)
             if(review.userId === userId)
-          td(class="user-comment")= review.comment
-          td
-            a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
-            button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
+              td(class="user-comment")= review.comment
+              td
+                a(href=`/mangas/${id}/reviews/edit/${review.id}` class="editBtn navlinks") Edit
+                button(class='delete-button' id=`${review.id}-${review.mangaId}` type='submit') Delete
   //- else
   //-   //- a(href=`/users/login`)
   //-   a(href=`/mangas/${id}/reviews/users/login` value="post")
