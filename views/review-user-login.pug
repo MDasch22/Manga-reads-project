@@ -28,7 +28,7 @@ block content
         form(action='/users/login' method='post')
           input(type='hidden' name='_csrf' value=csrfToken)
           +loginfield('Email Address', 'email', email, 'bobo@bobus.com')
-          +loginfield('Password', 'password', null, "bobo888", 'text')
+          +loginfield('Password', 'password', null, "bobo888", 'password')
           div(class='py-4')
             button(type='submit' class='purpBtn') Start Reading!
             a(href=`/mangas/${id}` class='btn btn-warning ml-2') Cancel
