@@ -41,7 +41,7 @@ th{
 .reviews-table{
   border-collapse: collapse;
   margin: 25px 40px;
-  background-color: #e5e5e5;
+  background-color: #eadcf1;;
   border-radius: 10px;
 }
 .user-name{
@@ -79,7 +79,7 @@ output{
   width: 333px;
 }
 .write-revw-btn{
-  padding-left: 25px;
+  padding-left: 40px;
 }
 .title-header{
   padding-top: 25px;
@@ -99,7 +99,7 @@ output{
 }
 .manga-page-details{
   margin: 40px;
-  background-color: #e5e5e5;
+  background-color: #eadcf1;
   padding: 22px 44px;
   align-content: center;
   width:fit-content;
@@ -130,7 +130,7 @@ output{
 }
 /* FOOTER */
 .footer-body{
-  margin-top: 30px;
+  margin-top: 150px;
   position: relative;
   line-height: 1.5;
   font-family: sans-serif;
@@ -215,4 +215,34 @@ ul{
 /* LOGIN */
 .login-form{
   position: relative;
+}
+/* ADD/EDIT REVIEW */
+.rating{
+  margin-top: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(162, 162, 162, 0.849);
+  width: fit-content;
+  padding: 20px;
+  border-radius: 18px;
+}
+.rating-label{
+  margin-bottom: 8px;
+}
+/* BOOKSHELVES */
+.bookshelves-page{
+  padding: 5px;
+  margin: 20px 40px;
+  text-decoration: none;
+}
+.bookshelf-link{
+  color: #ffffff;
+  text-decoration: none;
+}
+.bookshelf-container{
+  margin: 25px;
+  border-radius: 9px;
+  padding: 18px;
+  width: fit-content;
+  background-color: #141414;
 }

@@ -23,10 +23,10 @@ block content
               a(href="/users/login" class="navlinks") Login
             li(class="navlinks")
               a(href="/guest" class="navlinks") Guest
-  h3= `${bookshelves[0].User.firstName}'s Bookshelves`
-  a(href= `/users/${bookshelves[0].User.id}/bookshelves/${bookshelves[0].id}`) Want To Read
-  div
-  a(href= `/users/${bookshelves[1].User.id}/bookshelves/${bookshelves[1].id}`) Currently Reading
-  div
-  a(href= `/users/${bookshelves[2].User.id}/bookshelves/${bookshelves[2].id}`) Read
-  div
+    h3= `${bookshelves[0].User.firstName}'s Bookshelves`
+    div(class="bookshelves-page")
+      a(href= `/users/${bookshelves[0].User.id}/bookshelves/${bookshelves[0].id}` class="bookshelf-link") Want To Read
+    div(class="bookshelves-page")
+      a(href= `/users/${bookshelves[1].User.id}/bookshelves/${bookshelves[1].id}` class="bookshelf-link") Currently Reading
+    div(class="bookshelves-page")
+      a(href= `/users/${bookshelves[2].User.id}/bookshelves/${bookshelves[2].id}` class="bookshelf-link") Read

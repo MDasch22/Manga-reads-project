@@ -23,8 +23,20 @@ block content
               a(href="/users/login" class="navlinks") Login
             li(class="navlinks")
               a(href="/guest" class="navlinks") Guest
-  each Manga in bookshelf[0].Mangas
-    div
-      p(id=`${userId}-${bookshelfId}`)= Manga.title
-        button(class="delete-currentlyReading purpBtn" id=`${userId}-${bookshelfId}`) Delete
-  script(src="/js/currentlyReading.js" type="module")
+    table
+      thead
+        tr
+          th Title
+          th Author
+          th Genre
+          th Release Date
+      tbody
+        each Manga in bookshelf[0].Mangas
+          tr(id=`${userId}-${bookshelfId}`)
+            td= Manga.title
+            td= Manga.author
+            td= Manga.genre
+            td= Manga.releaseDate
+            td: a(href=`/mangas/${Manga.id}`) learn more
+            td: button(class="delete-currentlyReading purpBtn" id=`${userId}-${bookshelfId}`) Delete
+   +footer
