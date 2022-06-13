@@ -177,7 +177,7 @@ router.post("/:id/reviews/add", requireAuth, csrfProtection, reviewValidators,
 
     if (validatorErrors.isEmpty()) {
       await newReview.save();
-      res.redirect(`/mangas/${id}/reviews`);
+      res.redirect(`/mangas/${id}/`);
     } else {
       const errors = validatorErrors.array().map((error) => error.msg);
       res.render("add-review", {
@@ -333,13 +333,13 @@ router.post("/:id/reviews/users/login", csrfProtection, loginValidators, asyncHa
   } else {
     errors = validatorErrors.array().map((error) => error.msg);
   }
-
   res.render("review-user-login", {
     title: "Login",
     email,
     errors,
     csrfToken: req.csrfToken(),
   });
+
 })
 );
 //END//

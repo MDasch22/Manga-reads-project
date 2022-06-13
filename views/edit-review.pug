@@ -3,7 +3,7 @@ extends layout.pug
 include user-form.pug
 
 block content
-  body
+  body(class='manga-details-page' style=`background-image: url(/images/${manga.id}.jpg)`)
     header
       a(href="/")
         img(class="logo" src="/images/mangaReadsLogo.jpg" alt="logo")
@@ -23,31 +23,33 @@ block content
             li(class="navlinks")
               a(href="/guest" class="navlinks") Guest
   +validationErrorSummary(error)
-
-  form(action=`/mangas/${mangaId}/reviews/edit/${reviewId}` method="post")
-    input(type='hidden' name='_csrf' value=csrfToken)
-    div(class="rating")
-      if errors
-        ul
-          each error in errors
-            li= error
-      label(for='rating-edit') Previous rating:
-      label(for='rating')= review.rating
-      p Rating
-      div(class="star_rating")
-        button(class="star") &#9734
-        button(class="star") &#9734
-        button(class="star") &#9734
-        button(class="star") &#9734
-        button(class="star") &#9734
-        p(class="current_rating") 0 of 5
-      input(type="text" id="rating" name="rating" value="")
+  div(class='rating')
+    img(src=`${manga.coverImg}`, alt="coverImg" style="width:200px")
+    form(action=`/mangas/${mangaId}/reviews/edit/${reviewId}` method="post")
+      input(type='hidden' name='_csrf' value=csrfToken)
       div
-      label(for='review') What did you think?
-      div
-      textarea(id='comment' name='comment')= review.comment
+        if errors
+          ul
+            each error in errors
+              li= error
+        label(for='rating-edit') Previous rating:
+        label(for='rating')= review.rating
+        p Rating
+        div(class="star_rating")
+          button(class="star") &#9734
+          button(class="star") &#9734
+          button(class="star") &#9734
+          button(class="star") &#9734
+          button(class="star") &#9734
+          p(class="current_rating") 0 of 5
+        input(type="text" id="rating" name="rating" value="")
+        div
+        label(for='review') What did you think?
+        div
+        textarea(id='comment' name='comment')= review.comment
 
-    button(type="submit") Re-post review
+      button(type="submit") Re-post review
+  +footer
   script(src="/js/starscript.js" type="module")
       //- label(id="star5" title='text' style="opacity: 50%") ⭐
       //- label(id="star4" title='text' style="opacity: 50%") ⭐

@@ -12,6 +12,5 @@ allStars.forEach( (star,i)=> {
       else star.innerHTML = '&#9734'
     })
     rating.value = currentStar
-    // review.rating = currentStar;
   }
 })
