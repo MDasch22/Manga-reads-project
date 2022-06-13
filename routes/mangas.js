@@ -28,9 +28,8 @@ const checkPermissions = (review, currentUser) => {
   //     userId: currentUser.id
   //   }
   // })
-  console.log(review.comment, review.id, currentUser.id)
   if (review.userId !== currentUser.id) {
-    const err = new Error('You are not authorized to edit!');
+    const err = new Error('You are NOT authorized to edit!');
     err.status = 403; // Forbidden
     throw err;
   }
@@ -52,6 +51,7 @@ router.get("/:mangaId", async (req, res) => {
     const bookshelves = await db.Bookshelf.findAll({
       where: { userId }
     })
+
     res.render("manga", { manga, bookshelves, userId });
   } else {
     const userId = null
@@ -105,22 +105,9 @@ router.get("/:id/reviews", async (req, res) => {
     where: { mangaId: id },
     include: [db.Manga, db.User],
   });
-
-
-  // if(reviews) {
-  //   res.render('reviews', { reviews, manga, id})
-  // } else {
-  //   reviews = null
-  //   res.render('reviews', {reviews, manga, id})
-  // }
+  const {userId} = req.session.auth;
+  if(userId)
   res.render("reviews", { reviews, id})
-  // if (req.session.auth) {
-  //   const { userId } = req.session.auth;
-  //   res.render();
-  // } else {
-  //   const userId = null;
-  //   res.render("reviews", { reviews, userId, id });
-  // }
 })
 
 router.get("/:id/reviews/add", requireAuth, csrfProtection, asyncHandler(async (req, res) => {
@@ -248,10 +235,11 @@ router.post('/:mangaId/reviews/edit/:reviewId', requireAuth, csrfProtection, rev
 router.post('/:mangaId/reviews/:reviewId/delete', requireAuth,//mangaid/delete/id
   asyncHandler( async (req, res) => {
     const mangaId = parseInt(req.params.mangaId, 10);
-    const manga = db.Manga.findByPk(mangaId)
     const reviewId = parseInt(req.params.reviewId, 10);
+    const review = await db.Review.findByPk(reviewId);
 
-    checkPermissions(manga, reviewId, res.locals.user)
+    checkPermissions(review, res.locals.user);
+
     const reviews = await db.Review.findOne({
       where: {
         id: reviewId,
