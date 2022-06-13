@@ -105,9 +105,13 @@ router.get("/:id/reviews", async (req, res) => {
     where: { mangaId: id },
     include: [db.Manga, db.User],
   });
-  const {userId} = req.session.auth;
-  if(userId)
-  res.render("reviews", { reviews, id})
+  const { userId } = req.session.auth;
+  if(userId){
+    res.render("reviews", { reviews, id, userId})
+  }else{
+    const userId = null;
+    res.render("reviews", {reviews, id, userId})
+  }
 })
 
 router.get("/:id/reviews/add", requireAuth, csrfProtection, asyncHandler(async (req, res) => {
