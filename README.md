@@ -4,7 +4,7 @@
 
 Developers: Erik Nguyen, Jingxun Yin, Elias Rodriguez, and Michael Dasch 
 
-Project Lead: [Dan Chin, aka "DanTheMan"](https://github.com/bongochin)
+Project Advisor: [Dan Chin, aka "DanTheMan"](https://github.com/bongochin)
 
 Explore the docs to see how to [get started-->](https://github.com/MDasch22/Manga-reads-project/wiki)
 
